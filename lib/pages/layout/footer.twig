@@ -1,0 +1,34 @@
+	
+		<footer class="text-muted">
+			<div class="container">
+				<p class="float-right">
+					<a href="#">Back to top</a>
+				</p>
+				<p>Powered by: <a href="flu-tech.com" target="_blank">Flutos</a></p>
+			</div>
+		</footer>
+	
+		<!-- Bootstrap core JavaScript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="/js/jquery-3.2.1.min.js"></script>
+		<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	
+	<script>
+		function search(e){
+			if(e.keyCode === 13){
+				e.preventDefault(); // Ensure it is only this code that rus
+				window.open("/tag/"+document.getElementById("tagSearch").value, "_self");
+			} else if(e.type === "click") {
+				e.preventDefault(); // Ensure it is only this code that rus
+				window.open("/tag/"+document.getElementById("tagSearch").value, "_self");
+			}
+		}
+	</script>
+		
+	{% if footer is defined %}
+			{{ footer|raw }}
+		{% endif %}
+	</body>
+</html>

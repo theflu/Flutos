@@ -1,0 +1,52 @@
+{% extends "/layout/default.twig" %}
+{# Add code to the head #}
+{% block header %}
+<link href="/css/lightbox.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <section class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">{{title}}</h1>
+        <p class="lead text-muted">{{description}}</p>
+		{% if tags %}
+		<p>
+			{% for tag in tags %}
+			<a href="/tag/{{tag}}" class="badge badge-info">{{tag}}</a>
+			{% endfor %}
+		</p>
+		{% endif %}
+		{% if _SESSION_.username %}
+		{% if _SESSION_.username == owner or _SESSION_.username in users %}
+		<hr>
+		<p>
+			<a href="/e/{{album_slug}}" class="btn btn-primary">Edit</a>
+			<a href="/u/{{album_slug}}" class="btn btn-success">Upload</a>
+		</p>
+		{% endif %}
+		{% endif %}
+      </div>
+    </section>
+	
+    <div class="album text-muted">
+      <div class="container">
+
+        <div class="row">
+		  {% for image in images %}
+		  <div class="col-md-4">
+			  <div class="card">
+				<a href="/i/{{album_slug}}/{{image}}" data-lightbox="{{album_slug}}" class="gallery"><img src="/it/{{album_slug}}/{{image}}"></a>
+			  </div>
+          </div>
+		  {% endfor %}
+        </div>
+
+      </div>
+    </div>
+{% endblock %}
+
+{# Add code in the footer after jQuery is loaded #}
+{% block footer %}
+<script src="/js/lightbox.js"></script>
+{% endblock %}

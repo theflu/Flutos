@@ -1,0 +1,6 @@
+{% include "/layout/header.twig" with {header: block('header')} %}
+{% include "/layout/nav.twig" %}
+
+    {% block content %}{% endblock %}
+
+{% include "/layout/footer.twig" with {footer: block('footer')} %}

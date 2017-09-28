@@ -1,0 +1,42 @@
+{% extends "/layout/default.twig" %}
+{# Add code to the head #}
+{% block header %}
+{% endblock %}
+
+{% block content %}
+
+	<section class="jumbotron text-center">
+	  <div class="container">
+		<h1 class="jumbotron-heading">Tag Cloud</h1>
+	  </div>
+	</section>
+	
+	
+	<div class="album text-muted">
+	  <div class="container">
+
+		<div class="row">
+			<div class="col-md-12">
+				<div id="tagcloud" class="text-center">
+					{% for tag, weight in tags %}
+					<a href="/tag/{{tag}}" rel="{{weight}}">{{tag}}</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+	  </div>
+	</div>
+{% endblock %}
+
+{# Add code in the footer after jQuery is loaded #}
+{% block footer %}
+<script src="/js/jquery.tagcloud.js"></script>
+
+<script>
+$("#tagcloud a").tagcloud({
+	size: {start: 12, end: 36, unit: "px"},
+	color: {start: '#3498DB', end: '#46CFB0'}
+});
+</script>
+{% endblock %}

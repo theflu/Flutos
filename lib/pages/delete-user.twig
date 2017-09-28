@@ -1,0 +1,42 @@
+{% extends "/layout/default.twig" %}
+{# Add code to the head #}
+{% block header %}
+{% endblock %}
+
+{% block content %}
+
+    <section class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">Add User</h1>
+      </div>
+    </section>
+	
+    <div class="album text-muted">
+      <div class="container">
+
+        <div class="row">
+			<div class="col-6 mx-auto">
+				<form method="POST">
+					<div class="form-group">
+						<label for="username">Username</label>
+						<select class="form-control" id="username" name="username">
+							{% for user, details in users %}
+							{% if user != _SESSION_.username %}<option>{{user}}</option>{% endif %}
+							{% endfor %}
+						</select>
+					</div>
+					
+					<hr>
+					<button type="submit" class="btn btn-danger">Delete</button>
+					<a href="/" class="btn btn-warning">Cancel</a>
+				</form>
+				{% if msg %}<br><div class="alert alert-{{msg.type}} text-center" role="alert">{{msg.msg}}</div>{% endif %}
+			</div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{# Add code in the footer after jQuery is loaded #}
+{% block footer %}
+{% endblock %}

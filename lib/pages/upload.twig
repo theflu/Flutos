@@ -1,0 +1,54 @@
+{% extends "/layout/default.twig" %}
+{# Add code to the head #}
+{% block header %}
+<link href="/css/dropzone.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+		<section class="jumbotron text-center">
+			<div class="container">
+				<h1 class="jumbotron-heading">{{name}}</h1>
+				<p class="lead text-muted">{{description}}</p>
+				{% if tags %}
+				<p>
+					{% for tag in tags %}
+					<a href="/tag/{{tag}}" class="badge badge-info">{{tag}}</a>
+					{% endfor %}
+				</p>
+				{% endif %}
+			</div>
+		</section>
+	
+		<div class="album text-muted">
+			<div class="container">
+
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<form action="/u/{{album_slug}}" method="POST" class="dropzone needsclick dz-clickable" id="image-upload">
+							<div class="dz-message needsclick">
+								Drop files here or click to upload.
+							</div>
+							<div class="fallback">
+								<input name="image" type="file" multiple />
+							</div>
+						</form>
+						<br>
+						<a href="/a/{{album_slug}}" class="btn btn-success btn-lg">Done</a>
+					</div>
+				</div>
+			</div>
+		</div>
+{% endblock %}
+
+{# Add code in the footer after jQuery is loaded #}
+{% block footer %}
+<script src="/js/dropzone.min.js"></script>
+
+<script>
+Dropzone.options.imageUpload = {
+  paramName: "image",
+  acceptedFiles: "image/*",
+};
+</script
+{% endblock %}
