@@ -1,2 +1,2 @@
 # Flutos
-A flat file photo ablum
+A flat file photo album
