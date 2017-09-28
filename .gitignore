@@ -1,0 +1,8 @@
+# exclude albums
+lib/config.josn
+
+# exclude albums
+albums/*
+
+# keep albums folder
+!albums/.gitkeep 
