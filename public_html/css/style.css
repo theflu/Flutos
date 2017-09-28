@@ -1,0 +1,75 @@
+.navbar {
+  margin-bottom: 0;
+}
+
+.jumbotron {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  margin-bottom: 0;
+  background-color: #fff;
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron-heading {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  max-width: 40rem;
+}
+
+.album {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: #f7f7f7;
+}
+
+.card {
+  float: left;
+  width: 100%;
+  padding: .75rem;
+  margin-bottom: 2rem;
+  border: 0;
+  -webkit-box-shadow: 15px 15px 38px -5px rgba(0,0,0,0.68);
+  -moz-box-shadow: 15px 15px 38px -5px rgba(0,0,0,0.68);
+  box-shadow: 15px 15px 38px -5px rgba(0,0,0,0.68);
+}
+
+.card > img {
+  width: 100%;
+}
+
+.card > a > img {
+  width: 100%;
+}
+
+.card-text {
+  font-size: 85%;
+}
+
+#tagcloud {
+  margin: 30px auto;
+  width: 100%;
+  height: 371px;
+  border: none;
+}
+
+#tagcloud span.w10, #tagcloud span.w9, #tagcloud span.w8, #tagcloud span.w7 {
+  text-shadow: 0px 1px 1px #ccc;
+}
+
+#tagcloud span.w3, #tagcloud span.w2, #tagcloud span.w1 {
+  text-shadow: 0px 1px 1px #fff;
+}
+
+footer {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+footer p {
+  margin-bottom: .25rem;
+}
