@@ -225,13 +225,13 @@ class Album {
 	public function edit($album_name, $title, $description, $tags, $users) {
 		if (preg_match('/^[a-zA-Z0-9 ]+$/', $title)) {
 			$title = trim($title);
-			
-			if ($this->get($album_name)) {
-				$config = array(
-					'title' => $title,
-					'description' => $description,
-					'owner' => $_SESSION['username']
-				);
+
+            if (($old_config = $this->get($album_name))) {
+                $config = array(
+                    'title' => $title,
+                    'description' => $description,
+                    'owner' => $old_config['owner']
+                );
 				
 				if ($tags) {
 					$tags = explode(',', $tags);
