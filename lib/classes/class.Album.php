@@ -276,7 +276,9 @@ class Album {
     {
 
         if (preg_match('/^[a-zA-Z0-9-]+$/', $album_slug)) {
+            echo '1';
             if (is_dir(_ALBUMS_ . '/' . $album_slug)) {
+                echo '2';
                 $dir = _ALBUMS_ . '/' . $album_slug;
 
                 $it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
@@ -288,9 +290,11 @@ class Album {
                     } else {
                         unlink($file->getRealPath());
                     }
+                    echo $file->getRealPath();
                 }
                 rmdir($dir);
             }
         }
+        die('Done');
     }
 }
