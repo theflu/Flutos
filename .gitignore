@@ -6,3 +6,6 @@ albums/*
 
 # keep albums folder
 !albums/.gitkeep 
+
+# exclude project files
+.idea
