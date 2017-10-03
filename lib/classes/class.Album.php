@@ -65,7 +65,7 @@ class Album {
 			$album_slug = explode('/', $album);
 			$album_slug = $album_slug[count($album_slug)-1];
 			
-			if (($album_data = $this->get($album_slug, $image))) array_push($albums, $album_data);
+			if (($album_data = $this->get($album_slug, $images))) array_push($albums, $album_data);
 		}
 		
 		return $albums;
@@ -84,7 +84,7 @@ class Album {
 	public function getTags() {
 		
 		$tags = array();
-		$albums = $this->getAll($images);
+		$albums = $this->getAll();
 		foreach($albums as $key => $album) {
 			if(isset($album['tags']) || is_array($album['tags'])) $tags = array_merge($tags, $album['tags']);
 		}
@@ -105,10 +105,6 @@ class Album {
 	public function showImage($album, $image, $thumbnail = false) {
 		
 		if (is_dir(_ALBUMS_.'/'.$album)) {
-			
-			$ext = explode('.', $image);
-			$ext = $ext[count($ext)-1];
-			
 			if (file_exists(_ALBUMS_.'/'.$album.'/'.$image)) {
 				 $mime_type = mime_content_type(_ALBUMS_.'/'.$album.'/'.$image);
 				 header('Content-Type: '.$mime_type);
