@@ -271,4 +271,26 @@ class Album {
 		$this->error = 'Invalid album title';
 		return false;
 	}
+
+    public function delete($album_slug)
+    {
+
+        if (preg_match('/^[a-zA-Z0-9-]+$/', $album_slug)) {
+            if (is_dir(_ALBUMS_ . '/' . $album_slug)) {
+                $dir = _ALBUMS_ . '/' . $album_slug;
+
+                $it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
+                $files = new RecursiveIteratorIterator($it,
+                    RecursiveIteratorIterator::CHILD_FIRST);
+                foreach ($files as $file) {
+                    if ($file->isDir()) {
+                        rmdir($file->getRealPath());
+                    } else {
+                        unlink($file->getRealPath());
+                    }
+                }
+                rmdir($dir);
+            }
+        }
+    }
 }

@@ -350,3 +350,17 @@ if ($query[0] == 'create') {
 	
 	echo $twig->render('create.twig', $vars);
 }
+
+
+//
+// Delete Album
+//
+if ($query[0] == 'd') {
+
+    $auth->isAuth();
+
+    if (isset($query[1])) $album_class->delete($query[1]);
+
+    header('Location: /');
+    exit();
+}
