@@ -1,5 +1,5 @@
 # Flutos
-A flat file photo album
+A flat file photo album. Built with PHP, Bootstrap 4, Twig, DropzoneJS and Lightbox.
 
 ## Setup
 1. Clone repo
