@@ -16,7 +16,7 @@ require _LIB_.'/functions.php';
 // Load 3rd party libs
 require_once (_LIB_ . '/vendor/autoload.php');
 
-die(_LIB_)
+die(_LIB_);
 
 // Load classes
 spl_autoload_register(function ($class)
