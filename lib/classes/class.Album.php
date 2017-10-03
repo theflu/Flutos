@@ -286,9 +286,9 @@ class Album {
                     RecursiveIteratorIterator::CHILD_FIRST);
                 foreach ($files as $file) {
                     if ($file->isDir()) {
-                        rmdir($file->getRealPath());
+                        d(rmdir($file->getRealPath()));
                     } else {
-                        unlink($file->getRealPath());
+                        d(unlink($file->getRealPath()));
                     }
                     echo $file->getRealPath();
                 }
