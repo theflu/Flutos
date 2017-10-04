@@ -45,7 +45,7 @@ if (!isset($_SESSION['config_md5']) || $_SESSION['config_md5'] != $config_class-
     }
 }
 unset($config_class);
-d($_SESSION);
+
 // Configure Twig
 $loader = new Twig_Loader_Filesystem(_LIB_.'/pages');
 $twig = new Twig_Environment($loader);
