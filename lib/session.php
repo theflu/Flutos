@@ -29,7 +29,7 @@ spl_autoload_register(function ($class)
 
 // Get config
 $config_class = new Config;
-if (!isset($_SESSION['config']['md5']) || $_SESSION['config_md5'] != $config_class->getMd5()) {
+if (!isset($_SESSION['config']['md5']) || $_SESSION['config']['md5'] != $config_class->getMd5()) {
     $config = $config_class->get();
     if (!$config && $_SERVER['REQUEST_URI'] != '/setup') {
         header('Location: /setup');
