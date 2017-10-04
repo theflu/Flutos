@@ -190,9 +190,8 @@ if ($query[0] == 'add-user') {
 			$username = trim($_POST['username']);
 			$password = trim($_POST['password']);
 			$password_confirm = trim($_POST['password-confirm']);
-			$users = $config_class->users();
 			
-			if (!array_key_exists($username, $users)) {
+			if (!array_key_exists($username, $_SESSION['config']['users'])) {
 			
 				if (strlen($username) >= 3) {
 				
@@ -247,7 +246,7 @@ if ($query[0] == 'delete-user') {
 		}
 	}
 	
-	$vars['users'] = $config_class->users();
+	$vars['users'] = $_SESSION['config']['users'];
 	
 	echo $twig->render('delete-user.twig', $vars);
 }

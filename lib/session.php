@@ -37,6 +37,7 @@ if (!isset($_SESSION['config_md5']) || $_SESSION['config_md5'] != $config_class-
     } elseif ($config) {
 
         $_SESSION['config'] = $config;
+        d('Config updated');
 
         if($_SERVER['REQUEST_URI'] == '/setup') {
             header('Location: /');
