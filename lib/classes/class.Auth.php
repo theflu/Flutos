@@ -18,11 +18,9 @@ class Auth {
 	}
 	
 	public function login($username, $password, $redirect = true) {
-		$config = Config::get();
-		
-		if (isset($config['users'][$username]) && password_verify($password, $config['users'][$username]['password'])) {
+		if (isset($_SESSION['users'][$username]) && password_verify($password, $_SESSION['users'][$username]['password'])) {
 			$_SESSION['username'] = $username;
-			$_SESSION['user_type'] = $config['users'][$username]['type'];
+			$_SESSION['user_type'] = $_SESSION['users'][$username]['type'];
 			if ($redirect) $this->redirect();
 			
 			return true;
