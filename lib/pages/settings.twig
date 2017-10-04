@@ -1,0 +1,47 @@
+{% extends "/layout/default.twig" %}
+{# Add code to the head #}
+{% block header %}
+{% endblock %}
+
+{% block content %}
+
+    <section class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">Site Settings</h1>
+      </div>
+    </section>
+	
+    <div class="album text-muted">
+      <div class="container">
+
+        <div class="row">
+			<div class="col-6 mx-auto">
+				<form method="POST">
+					<div class="form-group">
+						<label for="name">Site Name</label>
+						<input type="text" class="form-control" id="name" name="name" placeholder="Site Name" value="{% if post %}{{ post.name }}{% else %}{{ _SITE_CONFIG_.site_name }}{% endif %}" required>
+					</div>
+					<div class="form-group">
+						<label for="description">Site Description</label>
+						<textarea class="form-control" id="description" name="description" placeholder="Site Description" required>{% if post %}{{ post.description }}{% else %}{{ _SITE_CONFIG_.site_description }}{% endif %}</textarea>
+						<small id="help" class="form-text text-muted">Description that shows on the main page html is allowed</small>
+					</div>
+					<div class="form-group">
+						<label for="ga_id">Google Analytics ID (optional)</label>
+						<input type="text" class="form-control" id="ga_id" name="ga_id" placeholder="Google Analytics ID" value="{% if post %}{{ post.ga_id }}{% else %}{{ _SITE_CONFIG_.ga_id }}{% endif %}">
+						<small id="help" class="form-text text-muted">Add site analytics with Google</small>
+					</div>
+					<hr>
+					<button type="submit" class="btn btn-success">Save</button>
+					<a href="/" class="btn btn-warning">Cancel</a>
+				</form>
+				{% if msg %}<br><div class="alert alert-{{msg.type}} text-center" role="alert">{{msg.msg}}</div>{% endif %}
+			</div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{# Add code in the footer after jQuery is loaded #}
+{% block footer %}
+{% endblock %}

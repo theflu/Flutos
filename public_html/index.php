@@ -363,3 +363,16 @@ if ($query[0] == 'd') {
     header('Location: /');
     exit();
 }
+
+
+//
+// Site Setting
+//
+if ($query[0] == 'settings') {
+
+    $auth->isAuth(true, true);
+
+    $vars = array();
+
+    echo $twig->render('settings.twig', $vars);
+}

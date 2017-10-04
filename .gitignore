@@ -1,7 +1,4 @@
 # exclude albums
-lib/config.json
-
-# exclude albums
 albums/*
 
 # keep albums folder

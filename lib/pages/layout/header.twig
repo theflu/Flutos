@@ -17,6 +17,19 @@
 	{% if header is defined %}
       {{ header|raw }}
     {% endif %}
+
+      {% if _SITE_CONFIG_.ga_id %}
+        <!-- Global Site Tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ _SITE_CONFIG_.ga_id }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments)};
+            gtag('js', new Date());
+
+            gtag('config', '{{ _SITE_CONFIG_.ga_id }}');
+        </script>
+
+      {% endif %}
   </head>
 
   <body>
