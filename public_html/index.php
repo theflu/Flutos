@@ -392,7 +392,7 @@ if ($query[0] == 'settings') {
             if (isset($_POST['ga_id'])) {
                 $ga_id = trim($_POST['ga_id']);
                 if ($ga_id != $_SESSION['config']['ga_id']) {
-                    $config_class->changeGais($ga_id);
+                    $config_class->changeGaid($ga_id);
                 }
             }
 
