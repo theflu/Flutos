@@ -51,6 +51,7 @@ $loader = new Twig_Loader_Filesystem(_LIB_.'/pages');
 $twig = new Twig_Environment($loader);
 $twig->addGlobal('_SESSION_', $_SESSION);
 
+// Add Config to twig
 if($_SESSION['config']) {
 	$twig->addGlobal('_SITE_CONFIG_', $_SESSION['config']);
 }
