@@ -75,6 +75,44 @@ class Config {
 		
 		return false;
 	}
+
+    public function changeName($site_name) {
+
+        $config = $this->get();
+
+        $config['site_name'] = $site_name;
+        $this->write($config);
+
+        return $this->check($config);
+    }
+
+    public function changeDesc($site_desc) {
+
+        $config = $this->get();
+
+        if (is_null($site_desc)) {
+            unset($config['site_description']);
+        } else {
+            $config['site_description'] = $site_desc;
+        }
+        $this->write($config);
+
+        return $this->check($config);
+    }
+
+    public function changeGaid($ga_id) {
+
+        $config = $this->get();
+
+        if (is_null($ga_id)) {
+            unset($config['ga_id']);
+        } else {
+            $config['ga_id'] = $ga_id;
+        }
+        $this->write($config);
+
+        return $this->check($config);
+    }
 	
 	public function pHash($password) {
 		return password_hash($password, PASSWORD_BCRYPT);

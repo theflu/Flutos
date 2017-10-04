@@ -374,5 +374,36 @@ if ($query[0] == 'settings') {
 
     $vars = array();
 
+    if($_POST) {
+        if(isset($_POST['name'])) {
+
+            $site_name = trim($_POST['name']);
+            if ($site_name != $_SESSION['config']['site_name']) {
+                $config_class->changeName($site_name);
+            }
+
+            if (isset($_POST['description'])) {
+                $site_description = trim($_POST['description']);
+                if ($site_description != $_SESSION['config']['site_description']) {
+                    $config_class->changeDesc($site_description);
+                }
+            }
+
+            if (isset($_POST['ga_id'])) {
+                $ga_id = trim($_POST['ga_id']);
+                if ($ga_id != $_SESSION['config']['ga_id']) {
+                    $config_class->changeGais($ga_id);
+                }
+            }
+
+            $vars['msg'] = array('type' => 'success', 'msg' => 'Settings changed');
+
+        } else {
+            $vars['msg'] = array('type' => 'danger', 'msg' => 'Site name is required');
+        }
+
+        $vars['post'] = $_POST;
+    }
+
     echo $twig->render('settings.twig', $vars);
 }
