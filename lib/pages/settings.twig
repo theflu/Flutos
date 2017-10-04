@@ -23,7 +23,7 @@
 					</div>
 					<div class="form-group">
 						<label for="description">Site Description</label>
-						<textarea class="form-control" id="description" name="description" placeholder="Site Description" required>{% if post %}{{ post.description }}{% else %}{{ _SITE_CONFIG_.site_description }}{% endif %}</textarea>
+						<textarea class="form-control" id="description" name="description" placeholder="Site Description">{% if post %}{{ post.description }}{% else %}{{ _SITE_CONFIG_.site_description }}{% endif %}</textarea>
 						<small id="help" class="form-text text-muted">Description that shows on the main page html is allowed</small>
 					</div>
 					<div class="form-group">
