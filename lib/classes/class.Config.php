@@ -119,6 +119,8 @@ class Config {
 		$fp = fopen($this->config_path, 'w+');
 		fwrite($fp, json_encode($new_config));
 		fclose($fp);
+
+		$this->md5Config();
 	}
 
     public function writeMd5($config_md5) {
