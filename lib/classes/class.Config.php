@@ -2,16 +2,28 @@
 
 class Config {
 	
-	public $error;	
-	
+	public $error;
+
+	private $config_path = _LIB_.'/../config/config.json';
+	private $config_md5_path = _LIB_.'/../config/config.md5';
+
 	public function get() {
 		
-		$config_json = file_get_contents(_LIB_.'/config.json');
+		$config_json = file_get_contents($this->config_path);
 		
-		if($config_json) return json_decode($config_json, true);
+		if($config_json) {
+		    $config = json_decode($config_json, true);
+		    $config['md5'] = $this->getMd5();
+		    return $config;
+        }
 		
 		return false;
 	}
+
+    public function getMd5() {
+	    $config_md5 = file_get_contents($this->config_md5_path);
+        return trim($config_md5);
+    }
 	
 	public function siteName() {
 		$config = $this->get();
@@ -75,6 +87,16 @@ class Config {
 		
 		return false;
 	}
+
+    public function md5Config() {
+        $config_md5 = md5_file($this->config_path);
+
+        if ($this->getMd5() == $config_md5) return true;
+
+        $this->writeMd5($config_md5);
+
+        return true;
+    }
 	
 	public function create($site_name, $username, $password) {
 		
@@ -94,8 +116,15 @@ class Config {
 	
 	public function write($new_config) {
 		
-		$fp = fopen(_LIB_.'/config.json', 'w+');
+		$fp = fopen($this->config_path, 'w+');
 		fwrite($fp, json_encode($new_config));
 		fclose($fp);
 	}
+
+    public function writeMd5($config_md5) {
+
+        $fp = fopen($this->config_md5_path, 'w+');
+        fwrite($fp, $config_md5);
+        fclose($fp);
+    }
 }

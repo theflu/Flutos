@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>{{_SITE_NAME_}}</title>
+    <title>{% if _SITE_CONFIG_.site_name %}{{ _SITE_CONFIG_.site_name }}{% else %}Flutos{% endif %}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">

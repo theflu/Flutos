@@ -1,11 +1,17 @@
 # exclude albums
-lib/config.josn
+lib/config.json
 
 # exclude albums
 albums/*
 
 # keep albums folder
-!albums/.gitkeep 
+!albums/.gitkeep
+
+# exclude config
+config/*
+
+# keep config folder
+!config/.gitkeep
 
 # exclude project files
 .idea

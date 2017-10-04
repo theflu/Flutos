@@ -29,22 +29,28 @@ spl_autoload_register(function ($class)
 
 // Get config
 $config_class = new Config;
-$config = $config_class->get();
-if (!$config && $_SERVER['REQUEST_URI'] != '/setup') {
-	header('Location: /setup');
-	exit();
-} elseif ($config && $_SERVER['REQUEST_URI'] == '/setup') {
-	header('Location: /');
-	exit();
+if (!isset($_SESSION['config_md5']) || $_SESSION['config_md5'] != $config_class->getMd5()) {
+    $config = $config_class->get();
+    if (!$config && $_SERVER['REQUEST_URI'] != '/setup') {
+        header('Location: /setup');
+        exit();
+    } elseif ($config) {
+
+        $_SESSION['config'] = $config;
+
+        if($_SERVER['REQUEST_URI'] == '/setup') {
+            header('Location: /');
+            exit();
+        }
+    }
 }
+unset($config_class);
 
 // Configure Twig
 $loader = new Twig_Loader_Filesystem(_LIB_.'/pages');
 $twig = new Twig_Environment($loader);
 $twig->addGlobal('_SESSION_', $_SESSION);
 
-if($config) {
-	$twig->addGlobal('_SITE_NAME_', $config['site_name']);
-} else {
-	$twig->addGlobal('_SITE_NAME_', 'Flutos');
+if($_SESSION['config']) {
+	$twig->addGlobal('_SITE_CONFIG_', $_SESSION['config']);
 }
