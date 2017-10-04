@@ -7,13 +7,13 @@ class Config {
 	private $config_path = _LIB_.'/../config/config.json';
 	private $config_md5_path = _LIB_.'/../config/config.md5';
 
-	public function get() {
+	public function get($get_md5 = true) {
 		
 		$config_json = file_get_contents($this->config_path);
 		
 		if($config_json) {
 		    $config = json_decode($config_json, true);
-		    $config['md5'] = $this->getMd5();
+		    if ($get_md5) $config['md5'] = $this->getMd5();
 		    return $config;
         }
 		
@@ -81,7 +81,7 @@ class Config {
 	}
 	
 	public function check($new_config) {
-		$config = $this->get();
+		$config = $this->get(false);
 		
 		if($config == $new_config) return true;
 		
