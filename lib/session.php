@@ -45,6 +45,8 @@ if (!isset($_SESSION['config']['md5']) || $_SESSION['config']['md5'] != $config_
         }
     }
 }
+d($config_class->getMd5());
+d($_SESSION['config']['md5']);
 unset($config_class);
 
 // Configure Twig
