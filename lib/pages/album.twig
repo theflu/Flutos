@@ -40,10 +40,10 @@
 				  <a href="/i/{{album_slug}}/{{image}}" data-lightbox="{{album_slug}}" class="gallery"><img src="/it/{{album_slug}}/{{image}}"></a>
                   <div class="row edit-buttons">
                       <div class="col-sm-6 text-left">
-                          <a href="/u/{{album_slug}}" class="btn btn-danger">Delete</a>
+                          <a href="/u/{{album_slug}}" class="mt-2 btn btn-danger">Delete</a>
                       </div>
                       <div class="col-sm-6 text-right">
-                          <a href="/u/{{album_slug}}" class="btn btn-outline-success">Default</a>
+                          <a href="/u/{{album_slug}}" class="mt-2 btn btn-outline-success">Default</a>
                       </div>
                   </div>
 			  </div>
@@ -61,9 +61,15 @@
 
     <script>
         $('#edit-photos').click(function () {
-            $('#edit_buttons').each(function () {
-                $(this).show();
-            });
+            if ($('.edit-buttons').prop('display') == 'none') {
+                $('.edit-buttons').each(function () {
+                    $(this).show();
+                });
+            } else {
+                $('.edit-buttons').each(function () {
+                    $(this).hide();
+                });
+            }
         });
     </script>
 {% endblock %}
