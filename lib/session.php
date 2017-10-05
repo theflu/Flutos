@@ -56,11 +56,6 @@ if($_SESSION['config']) {
 $auth =  new Auth();
 if ($auth->isAuth(false)) {
     if (($_SESSION['last_active'] + 1200) < time()) {
-        d($_SESSION['last_active']);
-        d(time());
-        d($_SESSION['last_active'] + 1200);
-        d(($_SESSION['last_active'] + 1200) < time());
-        die();
         $auth->logout();
     }
     $_SESSION['last_active'] = time();
