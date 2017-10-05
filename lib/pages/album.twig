@@ -94,7 +94,7 @@
         });
 
         $('#deleteButton').click(function () {
-            $('#deleteConfirm').href('/d/{{ album_slug }}/'+$(this).val())
+            $('#deleteConfirm').attr('href', '/d/{{ album_slug }}/'+$(this).val())
             $('#deleteModal').modal('show');
         });
     </script>
