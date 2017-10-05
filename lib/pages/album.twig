@@ -61,13 +61,13 @@
 
     <script>
         $('#edit-photos').click(function () {
-            if ($('.edit-buttons').prop('display') == 'none') {
+            if ($('.edit-buttons').is(':visible') == 'none') {
                 $('.edit-buttons').each(function () {
-                    $(this).show();
+                    $(this).hide();
                 });
             } else {
                 $('.edit-buttons').each(function () {
-                    $(this).hide();
+                    $(this).show();
                 });
             }
         });
