@@ -58,6 +58,8 @@ if ($auth->isAuth(false)) {
     if ((strtotime($_SESSION['last_active']) + 1200) < time()) {
         d($_SESSION['last_active']);
         d(time());
+        d(strtotime($_SESSION['last_active']) + 1200);
+        d((strtotime($_SESSION['last_active']) + 1200) < time());
         die();
         $auth->logout();
     }
