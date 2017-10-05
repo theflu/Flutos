@@ -23,7 +23,7 @@
 		<p>
 			<a href="/e/{{album_slug}}" class="btn btn-info">Edit</a>
 			<a href="/u/{{album_slug}}" class="btn btn-success">Upload</a>
-            <button type="button" class="btn btn-primary ">Edit Photos</button>
+            <button type="button" id="editPhotos" class="btn btn-primary">Edit Photos</button>
 		</p>
 		{% endif %}
 		{% endif %}
@@ -40,7 +40,7 @@
 				  <a href="/i/{{album_slug}}/{{image}}" data-lightbox="{{album_slug}}" class="gallery"><img src="/it/{{album_slug}}/{{image}}"></a>
                   <div class="row editButtons" style="display: none;">
                       <div class="col-sm-6 text-left">
-                          <button type="button" id="deleteButton" class="mt-2 btn btn-danger" value="{{image}}">Delete</button>
+                          <button type="button" class="mt-2 btn btn-danger deleteButton" value="{{image}}">Delete</button>
                       </div>
                       <div class="col-sm-6 text-right">
                           <a href="/sd/{{album_slug}}/{{ image }}" class="mt-2 btn btn{% if image != default %}-outline{% endif %}-success">Default</a>
@@ -81,7 +81,7 @@
     <script src="/js/lightbox.js"></script>
 
     <script>
-        $('.editPhotos').click(function () {
+        $('#editPhotos').click(function () {
             if ($('.editButtons').is(':visible')) {
                 $('.editButtons').each(function () {
                     $(this).hide();
@@ -93,7 +93,7 @@
             }
         });
 
-        $('#deleteButton').click(function () {
+        $('.deleteButton').click(function () {
             $('#deleteConfirm').attr('href', '/d/{{ album_slug }}/'+$(this).val())
             $('#deleteModal').modal('show');
         });
