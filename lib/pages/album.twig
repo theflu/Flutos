@@ -21,9 +21,9 @@
 		{% if _SESSION_.username == owner or _SESSION_.username in users %}
 		<hr>
 		<p>
-			<a href="/e/{{album_slug}}" class="btn btn-primary">Edit</a>
-			<a href="/u/{{album_slug}}" class="btn btn-success">Upload</a>
-            <button type="button" id="edit-photos" class="btn btn-outline-success">Edit Photos</button>
+			<a href="/e/{{album_slug}}" class="btn btn-outline-info">Edit</a>
+			<a href="/u/{{album_slug}}" class="btn btn-outline-success">Upload</a>
+            <button type="button" id="edit-photos" class="btn btn-outline-primary">Edit Photos</button>
 		</p>
 		{% endif %}
 		{% endif %}
