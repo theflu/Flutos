@@ -21,9 +21,9 @@
 		{% if _SESSION_.username == owner or _SESSION_.username in users %}
 		<hr>
 		<p>
-			<a href="/e/{{album_slug}}" class="btn btn-outline-info">Edit</a>
-			<a href="/u/{{album_slug}}" class="btn btn-outline-success">Upload</a>
-            <button type="button" id="edit-photos" class="btn btn-outline-primary">Edit Photos</button>
+			<a href="/e/{{album_slug}}" class="btn btn-info">Edit</a>
+			<a href="/u/{{album_slug}}" class="btn btn-success">Upload</a>
+            <button type="button" id="edit-photos" class="btn btn-primary">Edit Photos</button>
 		</p>
 		{% endif %}
 		{% endif %}
@@ -37,7 +37,15 @@
 		  {% for image in images %}
 		  <div class="col-md-4">
 			  <div class="card">
-				<a href="/i/{{album_slug}}/{{image}}" data-lightbox="{{album_slug}}" class="gallery"><img src="/it/{{album_slug}}/{{image}}"></a>
+				  <a href="/i/{{album_slug}}/{{image}}" data-lightbox="{{album_slug}}" class="gallery"><img src="/it/{{album_slug}}/{{image}}"></a>
+                  <div class="row edit-buttons">
+                      <div class="col-sm-6 text-left">
+                          <a href="/u/{{album_slug}}" class="btn btn-danger">Delete</a>
+                      </div>
+                      <div class="col-sm-6 text-right">
+                          <a href="/u/{{album_slug}}" class="btn btn-outline-success">Default</a>
+                      </div>
+                  </div>
 			  </div>
           </div>
 		  {% endfor %}
@@ -50,4 +58,12 @@
 {# Add code in the footer after jQuery is loaded #}
 {% block footer %}
 <script src="/js/lightbox.js"></script>
+
+    <script>
+        $('#edit-photos').click(function () {
+            $('#edit_buttons').each(function () {
+                $(this).show();
+            });
+        });
+    </script>
 {% endblock %}
