@@ -22,7 +22,7 @@ class Auth {
 			$_SESSION['username'] = $username;
 			$_SESSION['user_type'] = $_SESSION['config']['users'][$username]['type'];
             $_SESSION['last_active'] = time();
-            
+
 			if ($redirect) $this->redirect();
 			
 			return true;
