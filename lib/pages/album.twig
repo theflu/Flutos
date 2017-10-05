@@ -23,7 +23,7 @@
 		<p>
 			<a href="/e/{{album_slug}}" class="btn btn-info">Edit</a>
 			<a href="/u/{{album_slug}}" class="btn btn-success">Upload</a>
-            <button type="button" id="editPhotos" class="btn btn-primary">Edit Photos</button>
+            <button type="button" class="btn btn-primary ">Edit Photos</button>
 		</p>
 		{% endif %}
 		{% endif %}
@@ -81,7 +81,7 @@
     <script src="/js/lightbox.js"></script>
 
     <script>
-        $('#editPhotos').click(function () {
+        $('.editPhotos').click(function () {
             if ($('.editButtons').is(':visible')) {
                 $('.editButtons').each(function () {
                     $(this).hide();
