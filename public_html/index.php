@@ -26,7 +26,6 @@ if (empty($query[0])) {
 //
 if ($query[0] == 'a') {
 	if (($album = $album_class->get($query[1], true))) {
-	    d($album);
 		echo $twig->render('album.twig', $album);
 	} else {
 		header('Location: /');
