@@ -53,11 +53,11 @@ if($_SESSION['config']) {
 }
 
 // Check if inactive for 20min
-$auth_class =  new Auth();
-if ($auth_class->isAuth(false)) {
+$auth =  new Auth();
+if ($auth->isAuth(false)) {
     if ((strtotime($_SESSION['last_active']) + 1200) < time()) {
         $auth->logout();
     }
     $_SESSION['last_active'] = time();
 }
-unset($auth_class);
+unset($auth);
