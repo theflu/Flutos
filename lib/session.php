@@ -1,8 +1,4 @@
 <?php
-// Set timeout
-ini_set('session.gc_maxlifetime', 1200);
-session_set_cookie_params(1200);
-
 session_start();
 
 // Set paths
@@ -55,3 +51,13 @@ $twig->addGlobal('_SESSION_', $_SESSION);
 if($_SESSION['config']) {
 	$twig->addGlobal('_SITE_CONFIG_', $_SESSION['config']);
 }
+
+// Check if inactive for 20min
+$auth_class =  new Auth();
+if ($auth_class->isAuth(false)) {
+    if ((strtotime($_SESSION['last_active']) + 1200) < time()) {
+        $auth->logout();
+    }
+    $_SESSION['last_active'] = time();
+}
+unset($auth_class);
