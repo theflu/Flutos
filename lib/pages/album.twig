@@ -23,7 +23,7 @@
 		<p>
 			<a href="/e/{{album_slug}}" class="btn btn-info">Edit</a>
 			<a href="/u/{{album_slug}}" class="btn btn-success">Upload</a>
-            <button type="button" id="edit-photos" class="btn btn-primary">Edit Photos</button>
+            <button type="button" id="editPhotos" class="btn btn-primary">Edit Photos</button>
 		</p>
 		{% endif %}
 		{% endif %}
@@ -38,9 +38,9 @@
 		  <div class="col-md-4">
 			  <div class="card">
 				  <a href="/i/{{album_slug}}/{{image}}" data-lightbox="{{album_slug}}" class="gallery"><img src="/it/{{album_slug}}/{{image}}"></a>
-                  <div class="row edit-buttons">
+                  <div class="row editButtons">
                       <div class="col-sm-6 text-left">
-                          <a href="/u/{{album_slug}}" class="mt-2 btn btn-danger">Delete</a>
+                          <button type="button" id="delete-button" class="mt-2 btn btn-danger" value="{{image}}">Delete</button>
                       </div>
                       <div class="col-sm-6 text-right">
                           <a href="/u/{{album_slug}}" class="mt-2 btn btn-outline-success">Default</a>
@@ -53,6 +53,27 @@
 
       </div>
     </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Photo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h3>Are you sure you want to delete this photo?</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {# Add code in the footer after jQuery is loaded #}
@@ -60,16 +81,20 @@
 <script src="/js/lightbox.js"></script>
 
     <script>
-        $('#edit-photos').click(function () {
-            if ($('.edit-buttons').is(':visible')) {
-                $('.edit-buttons').each(function () {
+        $('#editPhotos').click(function () {
+            if ($('.editButtons').is(':visible')) {
+                $('.editButtons').each(function () {
                     $(this).hide();
                 });
             } else {
-                $('.edit-buttons').each(function () {
+                $('.editButtons').each(function () {
                     $(this).show();
                 });
             }
+        });
+
+        $('#deleteDutton').click(function () {
+            $('#deleteModal').modal('show');
         });
     </script>
 {% endblock %}
