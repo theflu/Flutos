@@ -26,6 +26,7 @@ if (empty($query[0])) {
 //
 if ($query[0] == 'a') {
 	if (($album = $album_class->get($query[1], true))) {
+	    d($album);
 		echo $twig->render('album.twig', $album);
 	} else {
 		header('Location: /');
@@ -344,27 +345,6 @@ if ($query[0] == 'd') {
     }
 }
 
-
-//
-// Default Photo
-//
-if ($query[0] == 'd') {
-    $auth->isAuth();
-
-    if (($album = $album_class->get($query[1], true))) {
-        if (($_SESSION['username'] == $album['owner'] || in_array($_SESSION['username'], $album['users'])) && in_array($query[2], $album['images'])) {
-            $album_class->defaultPhoto($query[1], $query[2]);
-            header('Location: /a/'.$query[1]);
-            exit();
-        } else {
-            header('Location: /');
-            exit();
-        }
-    } else {
-        header('Location: /');
-        exit();
-    }
-}
 
 //
 // Default Photo
