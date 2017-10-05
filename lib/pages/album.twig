@@ -1,7 +1,7 @@
 {% extends "/layout/default.twig" %}
 {# Add code to the head #}
 {% block header %}
-<link href="/css/lightbox.css" rel="stylesheet">
+    <link href="/css/lightbox.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -39,7 +39,7 @@
 			  <div class="card">
 				  <a href="/i/{{album_slug}}/{{image}}" data-lightbox="{{album_slug}}" class="gallery"><img src="/it/{{album_slug}}/{{image}}"></a>
                   <div class="row editButtons">
-                      <div class="col-sm-6 text-left">
+                      <div class="col-sm-6 text-left" style="display: none;">
                           <button type="button" id="delete-button" class="mt-2 btn btn-danger" value="{{image}}">Delete</button>
                       </div>
                       <div class="col-sm-6 text-right">
@@ -78,7 +78,7 @@
 
 {# Add code in the footer after jQuery is loaded #}
 {% block footer %}
-<script src="/js/lightbox.js"></script>
+    <script src="/js/lightbox.js"></script>
 
     <script>
         $('#editPhotos').click(function () {
