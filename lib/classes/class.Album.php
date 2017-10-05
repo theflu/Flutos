@@ -23,7 +23,7 @@ class Album {
 							$img_name = explode('/', $filename);
 							array_push($images, $img_name[count($img_name)-1]);
 							
-							if (!isset($config['default'])) $config['preview'] = $img_name[count($img_name)-1];
+							if (!isset($config['default'])) $config['default'] = $img_name[count($img_name)-1];
 						}
 					}
 					$config['images'] = $images;
