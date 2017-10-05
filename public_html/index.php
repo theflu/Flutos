@@ -324,6 +324,71 @@ if ($query[0] == 'e') {
 
 
 //
+// Delete Photo
+//
+if ($query[0] == 'd') {
+    $auth->isAuth();
+
+    if (($album = $album_class->get($query[1], true))) {
+        if (($_SESSION['username'] == $album['owner'] || in_array($_SESSION['username'], $album['users'])) && in_array($query[2], $album['images'])) {
+           $album_class->deletePhoto($query[1], $query[2]);
+            header('Location: /a/'.$query[1]);
+            exit();
+        } else {
+            header('Location: /');
+            exit();
+        }
+    } else {
+        header('Location: /');
+        exit();
+    }
+}
+
+
+//
+// Default Photo
+//
+if ($query[0] == 'd') {
+    $auth->isAuth();
+
+    if (($album = $album_class->get($query[1], true))) {
+        if (($_SESSION['username'] == $album['owner'] || in_array($_SESSION['username'], $album['users'])) && in_array($query[2], $album['images'])) {
+            $album_class->defaultPhoto($query[1], $query[2]);
+            header('Location: /a/'.$query[1]);
+            exit();
+        } else {
+            header('Location: /');
+            exit();
+        }
+    } else {
+        header('Location: /');
+        exit();
+    }
+}
+
+//
+// Default Photo
+//
+if ($query[0] == 'sd') {
+    $auth->isAuth();
+
+    if (($album = $album_class->get($query[1], true))) {
+        if (($_SESSION['username'] == $album['owner'] || in_array($_SESSION['username'], $album['users'])) && in_array($query[2], $album['images'])) {
+            $album_class->setDefault($query[1], $query[2]);
+            header('Location: /a/'.$query[1]);
+            exit();
+        } else {
+            header('Location: /');
+            exit();
+        }
+    } else {
+        header('Location: /');
+        exit();
+    }
+}
+
+
+//
 // Create New Album
 //
 if ($query[0] == 'create') {

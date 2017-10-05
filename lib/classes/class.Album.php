@@ -23,7 +23,7 @@ class Album {
 							$img_name = explode('/', $filename);
 							array_push($images, $img_name[count($img_name)-1]);
 							
-							if (!isset($config['preview'])) $config['preview'] = $img_name[count($img_name)-1];
+							if (!isset($config['default'])) $config['preview'] = $img_name[count($img_name)-1];
 						}
 					}
 					$config['images'] = $images;
@@ -35,8 +35,8 @@ class Album {
 						if (strtolower($ext) != 'json') {
 							$img_name = explode('/', $filename);
 							
-							if (!isset($config['preview'])) {
-								$config['preview'] = $img_name[count($img_name)-1];
+							if (!isset($config['default'])) {
+								$config['default'] = $img_name[count($img_name)-1];
 								break;
 							}
 						}
@@ -158,10 +158,10 @@ class Album {
 	public function create($title, $description, $tags, $users) {
 		if (preg_match('/^[a-zA-Z0-9 ]+$/', $title)) {
 			$title = trim($title);
-			$album_name = str_replace(' ', '-', strtolower($title));
+			$album_slug = str_replace(' ', '-', strtolower($title));
 			
-			if (!$this->get($album_name)) {
-				if (mkdir(_ALBUMS_.'/'.$album_name)) {
+			if (!$this->get($album_slug)) {
+				if (mkdir(_ALBUMS_.'/'.$album_slug)) {
 					$config = array(
 						'title' => $title,
 						'description' => $description,
@@ -196,11 +196,11 @@ class Album {
 					$config['tags'] = $tags;
 					$config['users'] = $users;
 					
-					$fp = fopen(_ALBUMS_.'/'.$album_name.'/config.json', 'w+');
+					$fp = fopen(_ALBUMS_.'/'.$album_slug.'/config.json', 'w+');
 					fwrite($fp, json_encode($config));
 					fclose($fp);
 					
-					if (file_exists(_ALBUMS_.'/'.$album_name.'/config.json')) return true;
+					if (file_exists(_ALBUMS_.'/'.$album_slug.'/config.json')) return true;
 					
 					$this->error = 'Failed to make album config';
 					return false;
@@ -218,15 +218,16 @@ class Album {
 		return false;
 	}
 	
-	public function edit($album_name, $title, $description, $tags, $users) {
+	public function edit($album_slug, $title, $description, $tags, $users) {
 		if (preg_match('/^[a-zA-Z0-9 ]+$/', $title)) {
 			$title = trim($title);
 
-            if (($old_config = $this->get($album_name))) {
+            if (($old_config = $this->get($album_slug))) {
                 $config = array(
                     'title' => $title,
                     'description' => $description,
-                    'owner' => $old_config['owner']
+                    'owner' => $old_config['owner'],
+                    'preview' => $old_config['preview']
                 );
 				
 				if ($tags) {
@@ -257,7 +258,7 @@ class Album {
 				$config['tags'] = $tags;
 				$config['users'] = $users;
 				
-				$fp = fopen(_ALBUMS_.'/'.$album_name.'/config.json', 'w+');
+				$fp = fopen(_ALBUMS_.'/'.$album_slug.'/config.json', 'w+');
 				fwrite($fp, json_encode($config));
 				fclose($fp);
 				
@@ -272,8 +273,7 @@ class Album {
 		return false;
 	}
 
-    public function delete($album_slug)
-    {
+    public function delete($album_slug) {
 
         if (preg_match('/^[a-zA-Z0-9-]+$/', $album_slug)) {
             if (is_dir(_ALBUMS_ . '/' . $album_slug)) {
@@ -290,6 +290,30 @@ class Album {
                     }
                 }
                 rmdir($dir);
+            }
+        }
+    }
+
+    public function deletePhoto($album_slug, $image) {
+        $dir = _ALBUMS_ . '/' . $album_slug;
+
+        if (preg_match('/^[a-zA-Z0-9-]+$/', $album_slug)) {
+            if ($this->get($album_slug)) {
+                unlink($dir.'/'.$image);
+            }
+        }
+    }
+
+    public function setDefault($album_slug, $image) {
+        $dir = _ALBUMS_ . '/' . $album_slug;
+
+        if (preg_match('/^[a-zA-Z0-9-]+$/', $album_slug)) {
+            if (($config = $this->get($album_slug, false))) {
+                $config['default'] = $image;
+
+                $fp = fopen(_ALBUMS_.'/'.$album_slug.'/config.json', 'w+');
+                fwrite($fp, json_encode($config));
+                fclose($fp);
             }
         }
     }
