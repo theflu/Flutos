@@ -69,7 +69,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <a href="#" type="button" id="deleteConfirm" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>
@@ -94,6 +94,7 @@
         });
 
         $('#deleteButton').click(function () {
+            $('#deleteConfirm').href('/i/{{ album_slug }}'+$(this).value())
             $('#deleteModal').modal('show');
         });
     </script>
