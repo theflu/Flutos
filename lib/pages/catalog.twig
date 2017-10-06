@@ -1,4 +1,7 @@
 {% extends "/layout/default.twig" %}
+
+{% set page_description = _SITE_CONFIG_.site_description|striptags %}
+
 {# Add code to the head #}
 {% block header %}
 {% endblock %}

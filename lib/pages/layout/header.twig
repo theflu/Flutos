@@ -2,10 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="{{ page_description }}">
+      <meta property="og:title"              content="{% if page_title %}{{ page_title }} - {% endif %}{% if _SITE_CONFIG_.site_name %}{{ _SITE_CONFIG_.site_name }}{% else %}Flutos{% endif %}" />
+      <meta property="og:description"        content="{{ page_description }}" />
+      <meta property="og:image"              content="{{ page_image }}" />
+
+    <link rel="icon" href="/favicon.ico">
 
     <title>{% if page_title %}{{ page_title }} - {% endif %}{% if _SITE_CONFIG_.site_name %}{{ _SITE_CONFIG_.site_name }}{% else %}Flutos{% endif %}</title>
 

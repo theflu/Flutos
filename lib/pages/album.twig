@@ -1,6 +1,8 @@
 {% extends "/layout/default.twig" %}
 
 {% set page_title = title %}
+{% set page_description = description %}
+{% set page_image = '/i/'~album_slug~'/'~image %}
 
 {# Add code to the head #}
 {% block header %}
@@ -11,12 +13,12 @@
 
     <section class="jumbotron text-center">
       <div class="container">
-        <h1 class="jumbotron-heading">{{title}}</h1>
-        <p class="lead text-muted">{{description}}</p>
+        <h1 class="jumbotron-heading">{{ title }}</h1>
+        <p class="lead text-muted">{{ description }}</p>
 		{% if tags %}
 		<p>
 			{% for tag in tags %}
-			<a href="/tag/{{tag}}" class="badge badge-info">{{tag}}</a>
+			<a href="/tag/{{ tag }}" class="badge badge-info">{{ tag }}</a>
 			{% endfor %}
 		</p>
 		{% endif %}
