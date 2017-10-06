@@ -1,6 +1,13 @@
 {% extends "/layout/default.twig" %}
 
-{% set page_description = _SITE_CONFIG_.site_description|striptags %}
+{% if _SITE_CONFIG_.site_description %}
+    {% set page_description = _SITE_CONFIG_.site_description|striptags %}
+{% else %}
+    {% set page_description = "Flutos (Noun)
+	Pronunciation: flu-toes
+	An archive of the photos taken of/by of the Fluharty family on their adventures through life." %}
+{% endif %}
+
 
 {# Add code to the head #}
 {% block header %}
