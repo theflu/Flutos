@@ -18,6 +18,8 @@ class Auth {
 	}
 	
 	public function login($username, $password, $redirect = true) {
+	    $username = strtolower($username);
+
 		if (isset($_SESSION['config']['users'][$username]) && password_verify($password, $_SESSION['config']['users'][$username]['password'])) {
 			$_SESSION['username'] = $username;
 			$_SESSION['user_type'] = $_SESSION['config']['users'][$username]['type'];

@@ -39,6 +39,7 @@ class Config {
 	
 	public function addUser($username, $password, $type = 'user') {
 		$password_hash = $this->pHash($password);
+		$username = strtolower($username);
 		
 		$config = $this->get();
 		
