@@ -38,6 +38,10 @@
   box-shadow: 15px 15px 38px -5px rgba(0,0,0,0.68);
 }
 
+img {
+  image-orientation: from-image;
+}
+
 .card > img {
   width: 100%;
 }
