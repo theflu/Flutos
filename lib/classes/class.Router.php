@@ -8,7 +8,7 @@
  */
 class Router
 {
-    private $routes = array(
+    public $routes = array(
         'get'  => array(),
         'post' => array()
     );

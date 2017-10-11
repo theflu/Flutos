@@ -5,5 +5,5 @@ require '../lib/session.php';
 $auth = new Auth;
 $album_class = new Album;
 $config_class = new Config;
-
-$router->route();
+d($router->routes);
+d($router->route());
