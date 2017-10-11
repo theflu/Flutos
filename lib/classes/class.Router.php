@@ -66,7 +66,8 @@ class Router
             $uri_array = $this->uriExplode($uri);
 
             $uri_count = count($uri_array);
-
+            d($uri_array);
+            d($uri_count);
             $params = array();
             $route_match =  true;
 
