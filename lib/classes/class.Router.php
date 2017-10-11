@@ -31,6 +31,8 @@ class Router
         $uri_array = explode('/', $uri[0]);
         $uri_array = array_filter($uri_array);
 
+        if (!$uri_array) array_push($uri_array, '/');
+
         return $uri_array;
     }
 
