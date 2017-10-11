@@ -46,7 +46,7 @@ class Router
                 'callback' => $callback
             );
 
-            if ($type != 'both') {
+            if ($type == 'both') {
                 array_push($this->routes['get'], $route);
                 array_push($this->routes['post'], $route);
             } else {
