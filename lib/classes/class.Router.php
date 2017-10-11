@@ -30,6 +30,7 @@ class Router
         $uri = explode('?', $uri);
         $uri_array = explode('/', $uri[0]);
         $uri_array = array_filter($uri_array);
+        $uri_array = array_filter($uri_array, strtolower());
 
         if (!$uri_array) array_push($uri_array, '/');
 
@@ -59,7 +60,7 @@ class Router
     }
 
     public function route () {
-        $http_method = $_SERVER['REQUEST_METHOD'];
+        $http_method = strtolower($_SERVER['REQUEST_METHOD']);
         $uri = $_SERVER['REQUEST_URI'];
 
         if (isset($this->route[$http_method]) && $this->route[$http_method]) {

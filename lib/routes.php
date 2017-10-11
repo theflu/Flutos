@@ -14,7 +14,7 @@ $router->get('/', function (){
 });
 
 
-$router->get('/album/{album_slug}', function ($album_slug){
+$router->get('/Album/{album_slug}', function ($album_slug){
     if (($album = $album_class->get($album_slug, true))) {
         echo $twig->render('album.twig', $album);
     } else {
