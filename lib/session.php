@@ -61,3 +61,6 @@ if ($auth->isAuth(false)) {
     $_SESSION['last_active'] = time();
 }
 unset($auth);
+
+// Load Routes
+require _LIB_.'/routes.php';
