@@ -33,7 +33,7 @@ class Router
 
         if (!$uri_array) array_push($uri_array, '/');
 
-        return $uri_array;
+        return array_values($uri_array);
     }
 
     private function add ($type, $uri, $callback) {
