@@ -62,7 +62,7 @@ class Router
     public function route () {
         $http_method = strtolower($_SERVER['REQUEST_METHOD']);
         $uri = $_SERVER['REQUEST_URI'];
-
+        d($http_method);
         if (isset($this->route[$http_method]) && $this->route[$http_method]) {
             $uri_array = $this->uriExplode($uri);
 
