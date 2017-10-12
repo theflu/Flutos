@@ -26,3 +26,10 @@ $router->get('/album/{album_slug}', function ($album_slug) use ($twig) {
         exit();
     }
 });
+
+
+$router->get('/album/{album_slug}/{image}', function ($album_slug, $image) use ($twig) {
+    $album_class = new Album;
+
+    $album_class->showImage($album_slug, $image);
+});
