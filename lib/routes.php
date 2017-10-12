@@ -169,5 +169,6 @@ $router->post('/delete-user', function () use ($twig) {
 });
 
 $router->get('/logout', function () {
-    Auth::logout();
+    $auth = new Auth();
+    $auth->logout();
 });
