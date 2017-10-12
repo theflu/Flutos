@@ -63,7 +63,7 @@ class Router
         $http_method = strtolower($_SERVER['REQUEST_METHOD']);
         $uri = $_SERVER['REQUEST_URI'];
         d($http_method);
-        if (isset($this->routes[$http_method]) && $this->route[$http_method]) {
+        if (isset($this->routes[$http_method]) && $this->routes[$http_method]) {
             $uri_array = $this->uriExplode($uri);
 
             $uri_count = count($uri_array);
