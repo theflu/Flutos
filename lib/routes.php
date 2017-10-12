@@ -34,4 +34,5 @@ $router->get('/album/{album_slug}/{image}', function ($album_slug, $image) use (
     d($album_class->showImage($album_slug, $image));
     d($album_slug);
     d($image);
+    d($album_class->error);
 });
