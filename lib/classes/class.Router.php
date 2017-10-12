@@ -88,7 +88,6 @@ class Router
                 }
 
                 if ($route_match) {
-                    d($route['uri']);
                     call_user_func_array($route['callback'], $params);
                     return;
                 }
