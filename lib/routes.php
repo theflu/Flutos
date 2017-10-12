@@ -163,5 +163,7 @@ $router->post('/delete-user', function () use ($twig) {
         $vars['msg'] = array('type' => 'danger', 'msg' => 'Invalid username');
     }
 
+    $vars['users'] = $_SESSION['config']['users'];
+
     echo $twig->render('delete-user.twig', $vars);
 });
