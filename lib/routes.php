@@ -32,4 +32,6 @@ $router->get('/album/{album_slug}/{image}', function ($album_slug, $image) use (
     $album_class = new Album;
 
     d($album_class->showImage($album_slug, $image));
+    d($album_slug));
+    d($image));
 });
