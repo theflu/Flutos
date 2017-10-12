@@ -48,7 +48,7 @@ $router->get('/album/{album_slug}/delete', function ($album_slug, $image) {
 
 $router->get('/album/{album_slug}/{image}', function ($album_slug, $image) use ($twig) {
     $album_class = new Album;
-
+    echo 'here';
     $album_class->showImage($album_slug, $image);
 });
 
