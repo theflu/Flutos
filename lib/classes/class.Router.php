@@ -8,10 +8,7 @@
  */
 class Router
 {
-    public $routes = array(
-        'get'  => array(),
-        'post' => array()
-    );
+    public $routes = array();
 
     public function get ($uri, $callback) {
         $this->add('get', $uri, $callback);
@@ -21,8 +18,15 @@ class Router
         $this->add('post', $uri, $callback);
     }
 
-    public function both ($uri, $callback) {
+    public function postGet ($uri, $callback) {
         $this->add('both', $uri, $callback);
+    }
+
+    public function redirect ($uri, $to, $code = 301) {
+        $this->add('both', $uri, function () use ($to, $code) {
+            header('Location: '.$to, true, $code);
+            exit();
+        });
     }
 
     private function uriExplode ($uri) {
@@ -36,7 +40,7 @@ class Router
         return array_values($uri_array);
     }
 
-    private function add ($type, $uri, $callback) {
+    public function add ($type, $uri, $callback) {
         if (is_callable($callback)) {
             $uri_array = $this->uriExplode($uri);
 
@@ -49,10 +53,23 @@ class Router
             );
 
             if ($type == 'both') {
+                if (isset($this->routes['get'])) $this->routes['get'] = array();
+                if (isset($this->routes['post'])) $this->routes['post'] = array();
+
                 array_push($this->routes['get'], $route);
                 array_push($this->routes['post'], $route);
             } else {
-                array_push($this->routes[$type], $route);
+                if (is_array($type)) {
+                    foreach ($type as $t) {
+                        if (isset($this->routes[$t])) $this->routes[$t] = array();
+
+                        array_push($this->routes[$t], $route);
+                    }
+                } else {
+                    if (isset($this->routes[$type])) $this->routes[$type] = array();
+
+                    array_push($this->routes[$type], $route);
+                }
             }
 
         }
