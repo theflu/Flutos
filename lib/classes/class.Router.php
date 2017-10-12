@@ -45,7 +45,7 @@ class Router
 
             $route = array(
                 'uri'      => $uri_array,
-                'count'    => $uri_count,
+                'uri_count'    => $uri_count,
                 'callback' => $callback
             );
 
@@ -69,14 +69,16 @@ class Router
             $uri_count = count($uri_array);
 
             $params = array();
-            $route_match =  true;
+            $route_match =  false;
 
             foreach ($this->routes[$http_method] as $route) {
-                if ($route == $uri_count) {
+                if ($route['uri_count'] == $uri_count) {
                     foreach ($route['uri'] as $k => $u) {
                         if ($uri_array[$k] != $u && (substr($u, 0, 1) != '{' && substr($u, -1) != '}')) {
                             $route_match = false;
                             break;
+                        } else {
+                            $route_match = true;
                         }
 
                         if (substr($u, 0, 1) == '{' && substr($u, -1) == '}') {
