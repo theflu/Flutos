@@ -142,7 +142,9 @@ $router->get('/delete-user', function () use ($twig) {
     $auth = new Auth();
     $auth->isAuth(true, true);
 
-    echo $twig->render('delete-user.twig');
+    $vars = array_push('users' => $_SESSION['config']['users']);
+
+    echo $twig->render('delete-user.twig', $vars);
 });
 
 $router->post('/delete-user', function () use ($twig) {
