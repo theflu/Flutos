@@ -104,12 +104,14 @@ class Router
                         }
 
                         if (substr($u, 0, 1) == '{' && substr($u, -1) == '}') {
+                            d($uri_array[$k]);
                             array_push($params, $uri_array[$k]);
                         }
                     }
                 }
 
                 if ($route_match) {
+                    d($params);
                     return call_user_func_array($route['callback'], $params);
                 } elseif (isset($this->routes['404']) && is_callable($this->routes['404'])) {
                     return call_user_func($route['404']);
