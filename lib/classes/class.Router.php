@@ -22,6 +22,12 @@ class Router
         $this->add('both', $uri, $callback);
     }
 
+    public function set404 ($callback) {
+        if (isset($this->routes['404'])) $this->routes['404'] = array();
+
+        array_push($this->routes['404'], $callback);
+    }
+
     public function redirect ($uri, $to, $code = 301) {
         $this->add('both', $uri, function () use ($to, $code) {
             header('Location: '.$to, true, $code);
@@ -105,10 +111,12 @@ class Router
 
                 if ($route_match) {
                     return call_user_func_array($route['callback'], $params);
+                } elseif (isset($this->routes['404']) && is_callable($this->routes['404'])) {
+                    return call_user_func($route['404']);
                 }
             }
 
-            return;
+            return false;
         }
 
         return false;
