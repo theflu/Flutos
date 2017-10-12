@@ -78,7 +78,7 @@ $router->get('/tag/{tag}', function ($tag) use ($twig) {
     echo $twig->render('tag.twig', array('albums' => $albums, 'tag' => $tag));
 });
 
-$router->get('/signin', function () use ($twig) {
+$router->get('/login', function () use ($twig) {
     $auth = new Auth();
 
     if ($auth->isAuth(false)) {
@@ -86,10 +86,10 @@ $router->get('/signin', function () use ($twig) {
         exit();
     }
 
-    echo $twig->render('signin.twig');
+    echo $twig->render('login.twig');
 });
 
-$router->post('/signin', function () use ($twig) {
+$router->post('/login', function () use ($twig) {
     $auth = new Auth();
 
     if ($auth->isAuth(false)) {
@@ -111,7 +111,7 @@ $router->post('/signin', function () use ($twig) {
 
     $vars['username'] = $_POST['username'];
 
-    echo $twig->render('signin.twig', $vars);
+    echo $twig->render('login.twig', $vars);
 });
 
 $router->get('/create', function ($album_slug, $image) use ($twig) {

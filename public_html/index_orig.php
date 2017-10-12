@@ -130,7 +130,7 @@ if ($query[0] == 'signin') {
 		$vars['username'] = $_POST['username'];
 	}
 
-	echo $twig->render('signin.twig', $vars);
+	echo $twig->render('login.twig', $vars);
 }
 
 
