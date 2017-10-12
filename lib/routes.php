@@ -157,13 +157,13 @@ $router->post('/delete-user', function () use ($twig) {
     if(!empty($username) && $username != $_SESSION['username']) {
         $config_class = new Config();
         $config_class->deleteUser($username);
-
+        $vars['users'] =$config_class->users();
         $vars['msg'] = array('type' => 'danger', 'msg' => 'User deleted successfully');
     } else {
         $vars['msg'] = array('type' => 'danger', 'msg' => 'Invalid username');
     }
 
-    $vars['users'] = $_SESSION['config']['users'];
+    if (!isset($vars['users']))$vars['users'] = $_SESSION['config']['users'];
 
     echo $twig->render('delete-user.twig', $vars);
 });
