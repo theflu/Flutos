@@ -167,3 +167,7 @@ $router->post('/delete-user', function () use ($twig) {
 
     echo $twig->render('delete-user.twig', $vars);
 });
+
+$router->get('/logout', function () {
+    Album::logout();
+});
