@@ -107,7 +107,7 @@ class Album {
 
 		if (is_dir(_ALBUMS_.'/'.$album)) {
 		    if (substr($image, 0, 3) == 'th_') {
-		        $image = substr($image, 4);
+		        $image = substr($image, 3);
 		        $thumbnail = true;
             }
 			if (file_exists(_ALBUMS_.'/'.$album.'/'.$image)) {
