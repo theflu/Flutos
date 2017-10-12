@@ -87,7 +87,7 @@ class Router
 
         if (isset($this->routes[$http_method]) && $this->routes[$http_method]) {
             $uri_array = $this->uriExplode($uri);
-            
+
             $uri_count = count($uri_array);
 
             $params = array();
