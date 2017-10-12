@@ -60,7 +60,7 @@ if ($query[0] == 'it') {
 if ($query[0] == 'tagcloud') {
 	// Display image thumbnail
 	$tags = $album_class->getTags();
-	echo $twig->render('tagcloud.twig', array('tags' => $tags));
+	echo $twig->render('tags.twig', array('tags' => $tags));
 }
 
 
