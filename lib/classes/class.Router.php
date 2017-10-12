@@ -62,13 +62,12 @@ class Router
     public function route () {
         $http_method = strtolower($_SERVER['REQUEST_METHOD']);
         $uri = $_SERVER['REQUEST_URI'];
-        d($http_method);
+
         if (isset($this->routes[$http_method]) && $this->routes[$http_method]) {
             $uri_array = $this->uriExplode($uri);
 
             $uri_count = count($uri_array);
-            d($uri_array);
-            d($uri_count);
+
             $params = array();
             $route_match =  true;
 
@@ -87,6 +86,7 @@ class Router
                 }
 
                 if ($route_match) {
+                    d($route['uri']);
                     call_user_func_array($route['callback'], $params);
                     return;
                 }
