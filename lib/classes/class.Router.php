@@ -87,8 +87,7 @@ class Router
 
         if (isset($this->routes[$http_method]) && $this->routes[$http_method]) {
             $uri_array = $this->uriExplode($uri);
-d($uri);
-d($uri_array);
+            
             $uri_count = count($uri_array);
 
             $params = array();
@@ -99,6 +98,7 @@ d($uri_array);
                     foreach ($route['uri'] as $k => $u) {
                         if ($uri_array[$k] != $u && (substr($u, 0, 1) != '{' && substr($u, -1) != '}')) {
                             $route_match = false;
+                            $params = array();
                             break;
                         } else {
                             $route_match = true;
@@ -111,7 +111,6 @@ d($uri_array);
                 }
 
                 if ($route_match) {
-                    d($route['uri']);
                     return call_user_func_array($route['callback'], $params);
                 } elseif (isset($this->routes['404']) && is_callable($this->routes['404'])) {
                     return call_user_func($route['404']);
