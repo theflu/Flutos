@@ -30,7 +30,7 @@ class Router
         $uri = explode('?', $uri);
         $uri_array = explode('/', $uri[0]);
         $uri_array = array_filter($uri_array);
-        $uri_array = array_filter($uri_array, strtolower());
+        $uri_array = array_map('strtolower', $uri_array);
 
         if (!$uri_array) array_push($uri_array, '/');
 
