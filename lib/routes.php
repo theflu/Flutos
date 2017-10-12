@@ -8,7 +8,7 @@
 
 $router = new Router;
 
-$router->get('/', function (){
+$router->get('/', function () use ($twig) {
     $album_class = new Album;
     $albums = $album_class->getAll();
 
@@ -16,9 +16,9 @@ $router->get('/', function (){
 });
 
 
-$router->get('/album/{album_slug}', function ($album_slug){
+$router->get('/album/{album_slug}', function ($album_slug) use ($twig) {
     $album_class = new Album;
-    
+
     if (($album = $album_class->get($album_slug, true))) {
         echo $twig->render('album.twig', $album);
     } else {
