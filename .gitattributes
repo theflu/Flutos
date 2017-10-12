@@ -1,7 +1,6 @@
 lib/vendor/* linguist-vendored
-
+lib/vendor/*.html linguist-vendored
 public_html/js/* linguist-vendored
-
 public_html/css/bootstrap.min.css linguist-vendored
 public_html/css/dropzone.min.css linguist-vendored
 public_html/css/lightbox.css linguist-vendored
