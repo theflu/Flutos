@@ -48,7 +48,7 @@
                           <button type="button" class="mt-2 btn btn-danger deleteButton" value="{{image}}">Delete</button>
                       </div>
                       <div class="col-sm-6 text-right">
-                          <a href="/sd/{{album_slug}}/{{ image }}" class="mt-2 btn btn{% if image != default %}-outline{% endif %}-success">Default</a>
+                          <a href="/album/{{album_slug}}/{{ image }}/default" class="mt-2 btn btn{% if image != default %}-outline{% endif %}-success">Default</a>
                       </div>
                   </div>
 			  </div>
@@ -99,7 +99,7 @@
         });
 
         $('.deleteButton').click(function () {
-            $('#deleteConfirm').attr('href', '/d/{{ album_slug }}/'+$(this).val())
+            $('#deleteConfirm').attr('href', '/album/{{ album_slug }}/'+$(this).val()+'/delete')
             $('#deleteModal').modal('show');
         });
     </script>
