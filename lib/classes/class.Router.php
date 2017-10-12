@@ -87,9 +87,7 @@ class Router
                 }
 
                 if ($route_match) {
-                    d($params);
-                    call_user_func_array($route['callback'], $params);
-                    return;
+                    return call_user_func_array($route['callback'], $params);
                 }
             }
 

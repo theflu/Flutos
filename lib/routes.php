@@ -31,8 +31,5 @@ $router->get('/album/{album_slug}', function ($album_slug) use ($twig) {
 $router->get('/album/{album_slug}/{image}', function ($album_slug, $image) use ($twig) {
     $album_class = new Album;
 
-    d($album_class->showImage($album_slug, $image));
-    d($album_slug);
-    d($image);
-    d($album_class->error);
+    $album_class->showImage($album_slug, $image);
 });
