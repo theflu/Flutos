@@ -75,13 +75,43 @@ $router->get('/tag/{tag}', function ($tag) use ($twig) {
     $album_class = new Album;
     $albums = $album_class->getTag($tag);
 
-    echo $twig->render('tag.twig', array('albums' => $albums, 'tag' => $query[1]));
+    echo $twig->render('tag.twig', array('albums' => $albums, 'tag' => $tag));
 });
 
-$router->get('/signin', function ($album_slug, $image) use ($twig) {
-    $album_class = new Album;
+$router->get('/signin', function () use ($twig) {
+    $auth = new Auth();
 
-    $album_class->showImage($album_slug, $image);
+    if ($auth->isAuth(false)) {
+        header('Location /');
+        exit();
+    }
+
+    echo $twig->render('signin.twig');
+});
+
+$router->post('/signin', function () use ($twig) {
+    $auth = new Auth();
+
+    if ($auth->isAuth(false)) {
+        header('Location /');
+        exit();
+    }
+
+    $vars = array();
+
+    if(isset($_POST['username']) && isset($_POST['password'])) {
+
+        if (!$auth->login(trim($_POST['username']), trim($_POST['password']))) {
+            $vars['msg'] = array('type' => 'danger', 'msg' => 'Username or password is incorrect.');
+        }
+
+    } else {
+        $vars['msg'] = array('type' => 'danger', 'msg' => 'All fields are required.');
+    }
+
+    $vars['username'] = $_POST['username'];
+
+    echo $twig->render('signin.twig', $vars);
 });
 
 $router->get('/create', function ($album_slug, $image) use ($twig) {
