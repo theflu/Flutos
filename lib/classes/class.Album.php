@@ -102,9 +102,14 @@ class Album {
 		return $tags_weighted;
 	}
 	
-	public function showImage($album, $image, $thumbnail = false) {
-		
+	public function showImage($album, $image) {
+		$thumbnail = false;
+
 		if (is_dir(_ALBUMS_.'/'.$album)) {
+		    if (substr($image, 0, 3) == 'th_') {
+		        $image = substr($image, 4);
+		        $thumbnail = true;
+            }
 			if (file_exists(_ALBUMS_.'/'.$album.'/'.$image)) {
 				 $mime_type = mime_content_type(_ALBUMS_.'/'.$album.'/'.$image);
 				 header('Content-Type: '.$mime_type);
