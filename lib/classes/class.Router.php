@@ -59,20 +59,20 @@ class Router
             );
 
             if ($type == 'both') {
-                if (isset($this->routes['get'])) $this->routes['get'] = array();
-                if (isset($this->routes['post'])) $this->routes['post'] = array();
+                if (!isset($this->routes['get'])) $this->routes['get'] = array();
+                if (!isset($this->routes['post'])) $this->routes['post'] = array();
 
                 array_push($this->routes['get'], $route);
                 array_push($this->routes['post'], $route);
             } else {
                 if (is_array($type)) {
                     foreach ($type as $t) {
-                        if (isset($this->routes[$t])) $this->routes[$t] = array();
+                        if (!isset($this->routes[$t])) $this->routes[$t] = array();
 
                         array_push($this->routes[$t], $route);
                     }
                 } else {
-                    if (isset($this->routes[$type])) $this->routes[$type] = array();
+                    if (!isset($this->routes[$type])) $this->routes[$type] = array();
 
                     array_push($this->routes[$type], $route);
                 }
