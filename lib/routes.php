@@ -60,8 +60,8 @@ $router->get('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
 
     if ($album && ($_SESSION['username'] == $album->owner or $_SESSION['user_type'] == 'admin')) {
         $site_config = new Config();
-        
-        echo $twig->render('edit.twig', array('config' => $album->config, 'users' => $site_config->users));
+        d($album->config());
+        echo $twig->render('edit.twig', array('config' => $album->config(), 'users' => $site_config->users));
     } else {
         $auth->redirect();
     }
