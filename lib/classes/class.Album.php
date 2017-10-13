@@ -74,7 +74,7 @@ d($config);
                 if ($i <= ($start + $limit)) {
                     d($album);
                     $album_slug = explode('/', $album);
-                    $album_slug = $album_slug[count($this->album_slug) - 1];
+                    $album_slug = $album_slug[count($album_slug) - 1];
 d($album_slug);
                     if (($album_config = $this->config($album_slug))) array_push($albums, $album_config);
                 } else {
