@@ -38,17 +38,6 @@ $router->get('/album/{album_slug}', function ($album_slug) use ($twig) {
 
 
 //
-// Display single image
-//
-
-$router->get('/album/{album_slug}/{image}', function ($album_slug, $image) use ($twig) {
-    $album = new Album($album_slug);
-
-    if ($album) $album->showImage($image);
-});
-
-
-//
 // Upload image to album
 //
 
@@ -68,10 +57,9 @@ $router->get('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
     $auth->isAuth();
 
     $album = new Album($album_slug);
-d('1');
+    
     if ($album && ($_SESSION['username'] == $album->ownwer or $_SESSION['type'] == 'admin')) {
         $site_config = new Config();
-        d('2');
         echo $twig->render('edit.twig', array('config' => $album, 'users' => $site_config->users));
     } else {
         $auth->redirect();
@@ -98,6 +86,17 @@ $router->get('/album/{album_slug}/{image}/delete', function ($album_slug, $image
     $album_class = new Album;
 
     $album_class->showImage($album_slug, $image);
+});
+
+
+//
+// Display single image
+//
+
+$router->get('/album/{album_slug}/{image}', function ($album_slug, $image) use ($twig) {
+    $album = new Album($album_slug);
+
+    if ($album) $album->showImage($image);
 });
 
 
