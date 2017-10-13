@@ -10,13 +10,7 @@ class Album {
 	    if (!is_null($album_slug) && is_dir(_ALBUMS_.'/'.$album_slug)) {
             if (file_exists(_ALBUMS_.'/'.$album_slug.'/config.json')) {
                 $this->album_slug = $album_slug;
-            } else {
-                $this->error = 'Album config does not exist';
-                return false;
             }
-        } else {
-	        $this->error = 'Album does not exist';
-	        return false;
         }
     }
     
