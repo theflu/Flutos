@@ -98,7 +98,7 @@ class Album {
         $albums = array();
         foreach(glob(_ALBUMS_.'/*') as $album) {
             $album_slug = explode('/', $album);
-            $album_slug = $album_slug[count($this->album_slug) - 1];
+            $album_slug = $album_slug[count($album_slug) - 1];
 
             if (($album_config = $this->config($album_slug))) {
                 if(!isset($album['tags']) || !is_array($album['tags']) || !in_array($tag, $album['tags'])) {
