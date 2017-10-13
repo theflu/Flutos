@@ -11,7 +11,7 @@ $router = new Router;
 $router->get('/', function () use ($twig) {
     $album = new Album;
     $albums = $album->getAll();
-    d($albums);
+
     echo $twig->render('catalog.twig', array('albums' => $albums));
 });
 

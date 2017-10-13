@@ -28,9 +28,7 @@ class Album {
 
         $config_json = file_get_contents(_ALBUMS_.'/'.$album_slug.'/config.json');
         $config = json_decode($config_json, true);
-d($album_slug);
-d($config_json);
-d($config);
+
         $config['image_total'] = $iterator->count() - 1;
 
         if (!isset($config['default']) || !file_exists(_ALBUMS_.'/'.$album_slug.'/'.$config['default'])) {
@@ -72,10 +70,9 @@ d($config);
 
 		    if ($i > $start) {
                 if ($i <= ($start + $limit)) {
-                    d($album);
                     $album_slug = explode('/', $album);
                     $album_slug = $album_slug[count($album_slug) - 1];
-d($album_slug);
+
                     if (($album_config = $this->config($album_slug))) array_push($albums, $album_config);
                 } else {
                     break;
