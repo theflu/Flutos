@@ -279,9 +279,11 @@ class Album {
 				
 				if ($users) {
 					$users = array_map('trim', $users);
-					
+					$users = array_map('strtolower', $users);
+
 					foreach ($users as $k => $user) {
 						if (!ctype_alnum($user)) unset($users[$k]);
+						if (!in_array($user, $_SESSION['config']['users'])) unset($users[$k]);
 					}
 					
 					$users = array_unique($users);
