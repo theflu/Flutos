@@ -29,6 +29,7 @@ class Album {
         $config_json = file_get_contents(_ALBUMS_.'/'.$album_slug.'/config.json');
         $config = json_decode($config_json, true);
 
+        $config['album_slug'] = $album_slug;
         $config['image_total'] = $iterator->count() - 1;
 
         if (!isset($config['default']) || !file_exists(_ALBUMS_.'/'.$album_slug.'/'.$config['default'])) {
