@@ -58,7 +58,7 @@ $router->get('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
 
     $album = new Album($album_slug);
 
-    if ($album && ($_SESSION['username'] == $album->owner or $_SESSION['user_type'] == 'admin')) {
+    if ($album && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
         $site_config = new Config();
 
         echo $twig->render('edit.twig', array('config' => $album->config(), 'users' => $site_config->users()));
@@ -82,7 +82,7 @@ $router->post('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
 
     if ($album && ($_SESSION['username'] == $album->owner or $_SESSION['user_type'] == 'admin')) {
         if (isset($_POST['title']) && isset($_POST['description'])) {
-            if (($album = $album->edit($_POST['title'], $_POST['description'], $_POST['tags'], $_POST['allowedUsers']))) {
+            if ($album->edit($_POST['title'], $_POST['description'], $_POST['tags'], $_POST['allowedUsers'])) {
                 header('Location: /album/'.$album_slug);
                 exit();
             } else {
