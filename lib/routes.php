@@ -60,8 +60,45 @@ $router->get('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
 
     if ($album && ($_SESSION['username'] == $album->owner or $_SESSION['user_type'] == 'admin')) {
         $site_config = new Config();
-        d($album->config());
+
         echo $twig->render('edit.twig', array('config' => $album->config(), 'users' => $site_config->users()));
+    } else {
+        $auth->redirect();
+    }
+});
+
+
+//
+// Submit album settings
+//
+
+$router->post('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
+    $auth = new Auth();
+    $auth->isAuth();
+
+    $album = new Album($album_slug);
+
+    $vars = array();
+
+    if ($album && ($_SESSION['username'] == $album->owner or $_SESSION['user_type'] == 'admin')) {
+        if (isset($_POST['title']) && isset($_POST['description'])) {
+            if (($album = $album_class->edit($query[1], $_POST['title'], $_POST['description'], $_POST['tags'], $_POST['allowedUsers']))) {
+                header('Location: /a/'.$query[1]);
+                exit();
+            } else {
+                $vars['msg'] = array('type' => 'danger', 'msg' => $album_class->error);
+            }
+        } else {
+            $vars['msg'] = array('type' => 'danger', 'msg' => 'Title and description are required');
+        }
+
+        $site_config = new Config();
+
+        $vars['config'] = $album->config();
+        $vars['users'] =$site_config->users();
+        $vars['post'] = $_POST;
+
+        echo $twig->render('edit.twig', $vars);
     } else {
         $auth->redirect();
     }
