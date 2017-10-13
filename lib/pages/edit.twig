@@ -41,7 +41,7 @@
 						{% if user != _SESSION_.username %}
 						<div class="form-check">
 							<label class="form-check-label">
-								<input name="allowedUsers[]" class="form-check-input" type="checkbox" value="{{ user }}"{% if post.allowedUsers and user in post.allowedUsers or not post and user in config..users %} checked{% endif %}>
+								<input name="allowedUsers[]" class="form-check-input" type="checkbox" value="{{ user }}"{% if post.allowedUsers and user in post.allowedUsers or not post and user in config.users %} checked{% endif %}>
 								{{user}}
 							</label>
 						</div>
