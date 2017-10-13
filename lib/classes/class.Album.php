@@ -169,7 +169,7 @@ class Album {
 
 	}
 	
-	public function saveImage($image) {
+	public function upload($image) {
 		if (!exif_imagetype($image['tmp_name'])) {
 			$this->error = 'Image not valid';
 			return false;
@@ -283,7 +283,6 @@ class Album {
 
 					foreach ($users as $k => $user) {
 						if (!ctype_alnum($user)) unset($users[$k]);
-						if (!in_array($user, $_SESSION['config']['users'])) unset($users[$k]);
 					}
 					
 					$users = array_unique($users);

@@ -41,10 +41,35 @@ $router->get('/album/{album_slug}', function ($album_slug) use ($twig) {
 // Upload image to album
 //
 
-$router->post('/album/{album_slug}/upload', function ($album_slug, $image) use ($twig) {
+$router->get('/album/{album_slug}/upload', function ($album_slug) use ($twig) {
+    $auth = new Auth();
+    $auth->isAuth();
+
     $album = new Album($album_slug);
 
-    if ($album) $album->upload($image);
+    if ($album && ($_SESSION['username'] == $album->owner() || in_array($_SESSION['username'], $album->users()))) {
+        echo $twig->render('upload.twig', array('config' => $album->config()));
+    } else {
+        $auth->redirect();
+    }
+});
+
+
+//
+// Submit image to album
+//
+
+$router->post('/album/{album_slug}/upload', function ($album_slug) {
+    $auth = new Auth();
+    $auth->isAuth();
+
+    $album = new Album($album_slug);
+
+    if ($album && ($_SESSION['username'] == $album->owner() || in_array($_SESSION['username'], $album->users()))) {
+        if ($_FILES && isset($_FILES['image'])) $album->upload($_FILES['image']);
+    } else {
+        $auth->redirect();
+    }
 });
 
 
