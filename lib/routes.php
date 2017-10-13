@@ -82,8 +82,8 @@ $router->post('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
 
     if ($album && ($_SESSION['username'] == $album->owner or $_SESSION['user_type'] == 'admin')) {
         if (isset($_POST['title']) && isset($_POST['description'])) {
-            if (($album = $album_class->edit($query[1], $_POST['title'], $_POST['description'], $_POST['tags'], $_POST['allowedUsers']))) {
-                header('Location: /a/'.$query[1]);
+            if (($album = $album->edit($_POST['title'], $_POST['description'], $_POST['tags'], $_POST['allowedUsers']))) {
+                header('Location: /album/'.$album_slug);
                 exit();
             } else {
                 $vars['msg'] = array('type' => 'danger', 'msg' => $album_class->error);
