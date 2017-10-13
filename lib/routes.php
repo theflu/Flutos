@@ -9,18 +9,18 @@
 $router = new Router;
 
 $router->get('/', function () use ($twig) {
-    $album_class = new Album;
-    $albums = $album_class->getAll();
+    $album = new Album;
+    $albums = $album->getAll();
 
     echo $twig->render('catalog.twig', array('albums' => $albums));
 });
 
 
 $router->get('/album/{album_slug}', function ($album_slug) use ($twig) {
-    $album_class = new Album;
+    $album = new Album($album_slug);
 
-    if (($album = $album_class->get($album_slug, true))) {
-        echo $twig->render('album.twig', $album);
+    if ($album) {
+        echo $twig->render('album.twig', array('config' => $album->config(), 'images' => $album->images()));
     } else {
         header('Location: /');
         exit();
