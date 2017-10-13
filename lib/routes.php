@@ -130,13 +130,38 @@ $router->post('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
 
 
 //
+// Delete album
+//
+
+$router->get('/album/{album_slug/delete', function ($album_slug) {
+    $auth = new Auth();
+    $auth->isAuth();
+
+    $album = new Album($album_slug);
+
+    if ($album && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
+        $album->delete();
+    } else {
+        $auth->redirect();
+    }
+});
+
+
+//
 // Set default image for album
 //
 
 $router->get('/album/{album_slug/{image}}/default', function ($album_slug, $image) {
-    $album_class = new Album;
+    $auth = new Auth();
+    $auth->isAuth();
 
-    $album_class->showImage($album_slug, $image);
+    $album = new Album($album_slug);
+
+    if ($album && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
+        $album->setDefault($image);
+    } else {
+        $auth->redirect();
+    }
 });
 
 
@@ -145,9 +170,16 @@ $router->get('/album/{album_slug/{image}}/default', function ($album_slug, $imag
 //
 
 $router->get('/album/{album_slug}/{image}/delete', function ($album_slug, $image) {
-    $album_class = new Album;
+    $auth = new Auth();
+    $auth->isAuth();
 
-    $album_class->showImage($album_slug, $image);
+    $album = new Album($album_slug);
+
+    if ($album && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
+        $album->deletePhoto($image);
+    } else {
+        $auth->redirect();
+    }
 });
 
 

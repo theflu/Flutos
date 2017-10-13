@@ -16,7 +16,7 @@
 				{% if tags %}
 				<p>
 					{% for tag in config.tags %}
-					<a href="/tag/{{tag}}" class="badge badge-info">{{ tag }}</a>
+					<a href="/tag/{{ tag }}" class="badge badge-info">{{ tag }}</a>
 					{% endfor %}
 				</p>
 				{% endif %}
@@ -37,7 +37,7 @@
 							</div>
 						</form>
 						<br>
-						<a href="/a/{{album_slug}}" class="btn btn-success btn-lg">Done</a>
+						<a href="/album/{{ config.album_slug }}" class="btn btn-success btn-lg">Done</a>
 					</div>
 				</div>
 			</div>
