@@ -26,8 +26,8 @@
 		{% if _SESSION_.user_type == 'admin' or _SESSION_.username == config.owner or _SESSION_.username in config.users %}
 		<hr>
 		<p>
-            {% if _SESSION_.user_type == 'admin' or _SESSION_.username == config.owner %}<a href="/e/{{ config.album_slug }}" class="btn btn-info">Edit</a>{%  endif %}
-            {% if _SESSION_.user_type == 'admin' or _SESSION_.username in config.users %}<a href="/u/{{ config.album_slug }}" class="btn btn-success">Upload</a>{%  endif %}
+            {% if _SESSION_.user_type == 'admin' or _SESSION_.username == config.owner %}<a href="/album/{{ config.album_slug }}/edit" class="btn btn-info">Edit</a>{%  endif %}
+            {% if _SESSION_.user_type == 'admin' or _SESSION_.username in config.users %}<a href="/album/{{ config.album_slug }}/upload" class="btn btn-success">Upload</a>{%  endif %}
             {% if _SESSION_.user_type == 'admin' or _SESSION_.username == config.owner %}<button type="button" id="editPhotos" class="btn btn-primary">Edit Photos</button>{%  endif %}
 		</p>
 		{% endif %}
