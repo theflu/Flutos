@@ -23,11 +23,13 @@ class Album {
     
     public function config ($album_slug = null) {
         if (is_null($album_slug)) $album_slug = $this->album_slug;
+
         $iterator = new GlobIterator(_ALBUMS_ . '/' . $album_slug . '/*');
 
         $config_json = file_get_contents(_ALBUMS_.'/'.$album_slug.'/config.json');
         $config = json_decode($config_json, true);
-
+d($config_json);
+d($config);
         $config['image_total'] = $iterator->count() - 1;
 
         if (!isset($config['default']) || !file_exists(_ALBUMS_.'/'.$album_slug.'/'.$config['default'])) {
