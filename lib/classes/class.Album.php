@@ -3,6 +3,7 @@
 class Album {
 	
     public $album_slug = null;
+    public $album_config = null;
 	public $error;
 	
 	public function __construct ($album_slug = null) {
@@ -42,8 +43,22 @@ class Album {
                 }
             }
         }
-        
+
+        $this->album_config = $config;
+
         return $config;
+    }
+
+    public function owner () {
+	    if (is_null($this->album_config)) $this->config();
+
+	    return $this->album_config['owner'];
+    }
+
+    public function users () {
+        if (is_null($this->album_config)) $this->config();
+
+        return $this->album_config['users'];
     }
 	
 	public function images($album_slug = null) {

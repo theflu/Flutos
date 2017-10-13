@@ -1,11 +1,15 @@
 <?php
 
 class Config {
-	
-	public $error;
 
+    public $site_config = null;
+	public $error;
 	private $config_path = _LIB_.'/../config/config.json';
 	private $config_md5_path = _LIB_.'/../config/config.md5';
+
+    public function __construct () {
+        $this->get();
+    }
 
 	public function get($get_md5 = true) {
 		
@@ -14,6 +18,9 @@ class Config {
 		if($config_json) {
 		    $config = json_decode($config_json, true);
 		    if ($get_md5) $config['md5'] = $this->getMd5();
+
+            $this->site_config = $config;
+
 		    return $config;
         }
 		
@@ -32,9 +39,7 @@ class Config {
 	}
 	
 	public function users() {
-		$config = $this->get();
-		
-		return $config['users'];
+		return $this->site_config['users'];
 	}
 	
 	public function addUser($username, $password, $type = 'user') {
