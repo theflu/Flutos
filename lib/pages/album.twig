@@ -1,8 +1,8 @@
 {% extends "/layout/default.twig" %}
 
-{% set page_title = title %}
-{% set page_description = description %}
-{% set page_image = '/i/'~album_slug~'/'~default %}
+{% set page_title = config.title %}
+{% set page_description = config.description %}
+{% set page_image = '/album/'~config.album_slug~'/'~config.default %}
 
 {# Add code to the head #}
 {% block header %}
@@ -13,8 +13,8 @@
 
     <section class="jumbotron text-center">
       <div class="container">
-        <h1 class="jumbotron-heading">{{ title }}</h1>
-        <p class="lead text-muted">{{ description }}</p>
+        <h1 class="jumbotron-heading">{{ config.title }}</h1>
+        <p class="lead text-muted">{{ config.description }}</p>
 		{% if tags %}
 		<p>
 			{% for tag in tags %}
@@ -26,8 +26,8 @@
 		{% if _SESSION_.username == owner or _SESSION_.username in users %}
 		<hr>
 		<p>
-			<a href="/e/{{album_slug}}" class="btn btn-info">Edit</a>
-			<a href="/u/{{album_slug}}" class="btn btn-success">Upload</a>
+			<a href="/e/{{ config.album_slug }}" class="btn btn-info">Edit</a>
+			<a href="/u/{{ config.album_slug }}" class="btn btn-success">Upload</a>
             <button type="button" id="editPhotos" class="btn btn-primary">Edit Photos</button>
 		</p>
 		{% endif %}
@@ -42,13 +42,13 @@
 		  {% for image in images %}
 		  <div class="col-md-4">
 			  <div class="card">
-				  <a href="/album/{{album_slug}}/{{image}}" data-lightbox="{{album_slug}}" class="gallery"><img src="/album/{{album_slug}}/th_{{image}}"></a>
+				  <a href="/album/{{ config.album_slug }}/{{ image }}" data-lightbox="{{ config.album_slug }}" class="gallery"><img src="/album/{{ config.album_slug }}/th_{{ image }}"></a>
                   <div class="row editButtons" style="display: none;">
                       <div class="col-sm-6 text-left">
                           <button type="button" class="mt-2 btn btn-danger deleteButton" value="{{image}}">Delete</button>
                       </div>
                       <div class="col-sm-6 text-right">
-                          <a href="/album/{{album_slug}}/{{ image }}/default" class="mt-2 btn btn{% if image != default %}-outline{% endif %}-success">Default</a>
+                          <a href="/album/{{ config.album_slug }}/{{ image }}/default" class="mt-2 btn btn{% if image != default %}-outline{% endif %}-success">Default</a>
                       </div>
                   </div>
 			  </div>
