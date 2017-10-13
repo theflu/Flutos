@@ -28,6 +28,7 @@ class Album {
 
         $config_json = file_get_contents(_ALBUMS_.'/'.$album_slug.'/config.json');
         $config = json_decode($config_json, true);
+d($album_slug);
 d($config_json);
 d($config);
         $config['image_total'] = $iterator->count() - 1;
