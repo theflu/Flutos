@@ -201,7 +201,7 @@ $router->get('/album/{album_slug}/{image}', function ($album_slug, $image) use (
 $router->get('/tags', function () use ($twig) {
     $album = new Album;
 
-    echo $twig->render('tags.twig', array('tags' => $album->getTags()));
+    echo $twig->render('tags.twig', array('tags' => $album->allTags()));
 });
 
 
