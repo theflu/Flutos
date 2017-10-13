@@ -63,7 +63,7 @@ $router->post('/album/{album_slug}/upload', function ($album_slug, $image) use (
 // Edit album settings
 //
 
-$router->get('/album/{album_slug}/edit', function ($album_slug, $image) use ($twig) {
+$router->get('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
     $auth = new Auth();
     $auth->isAuth();
 
