@@ -57,10 +57,8 @@ $router->get('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
     $auth->isAuth();
 
     $album = new Album($album_slug);
-    d($_SESSION);
-    d($album->ownwer);
-    die();
-    if ($album && ($_SESSION['username'] == $album->ownwer or $_SESSION['type'] == 'admin')) {
+    
+    if ($album && ($_SESSION['username'] == $album->owner or $_SESSION['user_type'] == 'admin')) {
         $site_config = new Config();
         echo $twig->render('edit.twig', array('config' => $album, 'users' => $site_config->users));
     } else {
