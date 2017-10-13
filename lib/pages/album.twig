@@ -47,7 +47,7 @@
                   <div class="row editButtons" style="display: none;">
                       <div class="col-sm-12 text-left">
                           <button type="button" class="mt-2 btn btn-danger deleteButton" value="{{image}}">Delete</button>
-                          <a href="/album/{{ config.album_slug }}/{{ image }}/default" class="right-block mt-2 btn btn{% if image != config.default %}-outline{% endif %}-success">Default</a>
+                          <a href="/album/{{ config.album_slug }}/{{ image }}/default" class="float-right mt-2 btn btn{% if image != config.default %}-outline{% endif %}-success">Default</a>
                       </div>
                   </div>
                   {%  endif %}
