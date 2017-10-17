@@ -22,6 +22,18 @@ $router->get('/', function () use ($twig) {
 
 
 //
+// Show albums
+//
+
+$router->get('/page/{page}', function ($page) use ($twig) {
+    $album = new Album;
+    $albums = $album->getAll($page);
+
+    echo $twig->render('catalog.twig', array('albums' => $albums));
+});
+
+
+//
 // Display album
 //
 
@@ -105,7 +117,7 @@ $router->post('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
 
     $vars = array();
 
-    if ($album && ($_SESSION['username'] == $album->owner or $_SESSION['user_type'] == 'admin')) {
+    if ($album && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
         if (isset($_POST['title']) && isset($_POST['description'])) {
             if ($album->edit($_POST['title'], $_POST['description'], $_POST['tags'], $_POST['allowedUsers'])) {
                 $vars['msg'] = array('type' => 'success', 'msg' => 'Album updated successfully');
@@ -262,28 +274,32 @@ $router->post('/login', function () use ($twig) {
     echo $twig->render('login.twig', $vars);
 });
 
-$router->get('/create', function ($album_slug, $image) use ($twig) {
-    $album_class = new Album;
+$router->get('/create', function () use ($twig) {
+    $auth = new Auth();
+    $auth->isAuth();
 
-    $album_class->showImage($album_slug, $image);
+    echo $twig->render('create.twig');
 });
 
-$router->get('/change-password', function ($album_slug, $image) use ($twig) {
-    $album_class = new Album;
+$router->get('/change-password', function () use ($twig) {
+    $auth = new Auth();
+    $auth->isAuth();
 
-    $album_class->showImage($album_slug, $image);
+    echo $twig->render('change-password.twig');
 });
 
-$router->get('/settings', function ($album_slug, $image) use ($twig) {
-    $album_class = new Album;
+$router->get('/settings', function () use ($twig) {
+    $auth = new Auth();
+    $auth->isAuth(true, true);
 
-    $album_class->showImage($album_slug, $image);
+    echo $twig->render('settings.twig');
 });
 
-$router->get('/add-user', function ($album_slug, $image) use ($twig) {
-    $album_class = new Album;
+$router->get('/add-user', function () use ($twig) {
+    $auth = new Auth();
+    $auth->isAuth(true, true);
 
-    $album_class->showImage($album_slug, $image);
+    echo $twig->render('add-user.twig');
 });
 
 $router->get('/delete-user', function () use ($twig) {
