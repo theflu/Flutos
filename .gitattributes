@@ -1,5 +1,5 @@
 lib/vendor/* linguist-vendored
-lib/vendor/twig/twig/test/Twig/Tests/Fixtures/errors/base.html linguist-vendored
+lib/pages/* linguist-vendored
 public_html/js/* linguist-vendored
 public_html/css/bootstrap.min.css linguist-vendored
 public_html/css/dropzone.min.css linguist-vendored
