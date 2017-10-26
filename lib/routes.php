@@ -40,7 +40,7 @@ $router->get('/page/{page}', function ($page) use ($twig) {
 $router->get('/album/{album_slug}', function ($album_slug) use ($twig) {
     $album = new Album($album_slug);
 
-    if ($album) {
+    if ($album->album_slug) {
         echo $twig->render('album.twig', array('config' => $album->config(), 'images' => $album->images()));
     } else {
         header('Location: /');
