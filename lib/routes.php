@@ -166,7 +166,7 @@ $router->get('/album/{album_slug}/delete', function ($album_slug) {
 // Set default image for album
 //
 
-$router->get('/album/{album_slug/{image}}/default', function ($album_slug, $image) {
+$router->get('/album/{album_slug}/{image}/default', function ($album_slug, $image) {
     $auth = new Auth();
     $auth->isAuth();
 
