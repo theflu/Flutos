@@ -32,7 +32,7 @@
 					<div class="form-group">
 						<label for="tags">Tags</label>
 						<input type="text" class="form-control" id="tags" name="tags" placeholder="Album Tags" value="{% if post.tags %}{{ post.tags }}{% else %}{% for tag in  config.tags %}{{ tag }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}">
-						<small id="help" class="form-text text-muted">Each tag must be seperated by a comma</small>
+						<small id="help" class="form-text text-muted">Each tag must be separated by a comma</small>
 					</div>
 					{% if users|length > 1 %}
 					<div class="form-group">
@@ -42,7 +42,7 @@
 						<div class="form-check">
 							<label class="form-check-label">
 								<input name="allowedUsers[]" class="form-check-input" type="checkbox" value="{{ user }}"{% if post.allowedUsers and user in post.allowedUsers or not post and user in config.users %} checked{% endif %}>
-								{{user}}
+								{{ user }}
 							</label>
 						</div>
 						{% endif %}

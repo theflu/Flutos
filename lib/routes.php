@@ -277,6 +277,11 @@ $router->post('/login', function () use ($twig) {
     echo $twig->render('login.twig', $vars);
 });
 
+
+//
+// Create album
+//
+
 $router->get('/create', function () use ($twig) {
     $auth = new Auth();
     $auth->isAuth();
@@ -306,6 +311,11 @@ $router->post('/create', function () use ($twig) {
     echo $twig->render('create.twig', $vars);
 });
 
+
+//
+// Change password
+//
+
 $router->get('/change-password', function () use ($twig) {
     $auth = new Auth();
     $auth->isAuth();
@@ -328,6 +338,11 @@ $router->post('/change-password', function () use ($twig) {
 
     echo $twig->render('change-password.twig', $vars);
 });
+
+
+//
+// Change settings
+//
 
 $router->get('/settings', function () use ($twig) {
     $auth = new Auth();
@@ -374,6 +389,11 @@ $router->post('/settings', function () use ($twig) {
     echo $twig->render('settings.twig', $vars);
 });
 
+
+//
+// Add user
+//
+
 $router->get('/add-user', function () use ($twig) {
     $auth = new Auth();
     $auth->isAuth(true, true);
@@ -395,6 +415,11 @@ $router->post('/add-user', function () use ($twig) {
 
     echo $twig->render('add-user.twig', $vars);
 });
+
+
+//
+// Delete user
+//
 
 $router->get('/delete-user', function () use ($twig) {
     $auth = new Auth();
@@ -426,6 +451,11 @@ $router->post('/delete-user', function () use ($twig) {
     echo $twig->render('delete-user.twig', $vars);
 });
 
+
+//
+// Logout
+//
+
 $router->get('/logout', function () {
     $auth = new Auth();
     $auth->logout();
@@ -434,6 +464,11 @@ $router->get('/logout', function () {
 $router->get('/setup', function () use ($twig) {
     echo $twig->render('setup.twig');
 });
+
+
+//
+// Initial setup
+//
 
 $router->post('/setup', function () use ($twig) {
     $config = new Config();
