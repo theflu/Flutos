@@ -40,7 +40,7 @@
 
         <div class="row">
           {% set i = 1 %}
-            {% set max = (config.image_total/3)// %}
+            {% set max = (config.image_total/3)|round(0, 'floor') %}
 		  {% for image in images %}
     {% if i == 1 %}<div class="col-md-4">{% endif %}
 			  <div class="card" id="{{ image }}">
