@@ -155,7 +155,7 @@ $router->get('/album/{album_slug}/delete', function ($album_slug) {
         $album->delete();
 
         header('Location: /');
-        exit();->$this->album_slug
+        exit();
     } else {
         $auth->redirect();
     }
