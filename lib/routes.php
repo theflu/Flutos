@@ -461,14 +461,14 @@ $router->get('/logout', function () {
     $auth->logout();
 });
 
-$router->get('/setup', function () use ($twig) {
-    echo $twig->render('setup.twig');
-});
-
 
 //
 // Initial setup
 //
+
+$router->get('/setup', function () use ($twig) {
+    echo $twig->render('setup.twig');
+});
 
 $router->post('/setup', function () use ($twig) {
     $config = new Config();
@@ -480,5 +480,5 @@ $router->post('/setup', function () use ($twig) {
         $vars['msg'] = array('type' => 'danger', 'msg' => $config->error);
     }
 
-    echo $twig->render('setup.twig');
+    echo $twig->render('setup.twig', $vars);
 });
