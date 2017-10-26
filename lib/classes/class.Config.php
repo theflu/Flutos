@@ -42,17 +42,25 @@ class Config {
 		return $this->site_config['users'];
 	}
 	
-	public function addUser($username, $password, $type = 'user') {
-		$password_hash = $this->pHash($password);
-		$username = strtolower($username);
+	public function addUser($username, $password, $password_conf, $type = 'user') {
+        if(!array_key_exists($username, $this->site_config['users'])) {
+            if($this->passReq($password, $password_conf)) {
+                $config_new = $this->site_config;
+                $config_new['users'][$username] = array('password' => $this->pHash($password), 'type' => $type);
+
+                $this->write($config_new);
+
+                if ($this->check($config_new)) {
+                    return true;
+                } else {
+                    $this->error = 'An error occurred while changing the password, please try again';
+                }
+            }
+        } else {
+            $this->error = 'Username already in use';
+        }
 		
-		$config = $this->get();
-		
-		$config['users'][$username] = array('password' => $password_hash, 'type' => $type);
-		
-		$this->write($config);
-		
-		return $this->check($config);
+		return false;
 	}
 	
 	public function deleteUser($username) {
@@ -65,19 +73,44 @@ class Config {
 		
 		return $this->check($config);
 	}
+
+	private function passReq($password, $password_conf) {
+        $password = trim($password);
+        $password_confirm = trim($password_conf);
+
+        if($password == $password_confirm) {
+            if(strlen($password) >= 6) {
+                return true;
+            } else {
+                $this->error = 'Password must be at least 6 characters long';
+            }
+        } else {
+            $this->error = 'Passwords do not match';
+        }
+
+        return false;
+    }
 	
-	public function changePassword($username, $password) {
-		
-		$config = $this->get();
-		$password_hash = $this->pHash($password);
-		
-		if (isset($config['users'][$username])) {
-			
-			$config['users'][$username]['password'] = $password_hash;
-			$this->write($config);
-		
-			return $this->check($config);
-		}
+	public function changePassword($username, $password, $password_conf) {
+
+        $password = trim($password);
+        $password_conf = trim($password_conf);
+
+        if($this->passReq($password, $password_conf)) {
+            if (isset($site_config['users'][$username])) {
+
+                $config['users'][$username]['password'] = $this->pHash($password);
+                $this->write($config);
+
+                if ($this->check($config)) {
+                    return true;
+                } else {
+                    $this->error = 'An error occurred while changing the password, please try again';
+                }
+            } else {
+                $this->error = 'User does not exist';
+            }
+        }
 		
 		return false;
 	}
@@ -125,9 +158,8 @@ class Config {
 	}
 	
 	public function check($new_config) {
-		$config = $this->get(false);
 		
-		if($config == $new_config) return true;
+		if($this->site_config == $new_config) return true;
 		
 		return false;
 	}
@@ -142,20 +174,29 @@ class Config {
         return true;
     }
 	
-	public function create($site_name, $username, $password) {
-		
-		$password_hash = $this->pHash($password);
-		
-		$new_config = array(
-			'site_name' => $site_name,
-			'users'     => array(
-				$username => array('password' => $password_hash, 'type' => 'admin')
-			)
-		);
-		
-		$this->write($new_config);
-		
-		return $this->check($new_config);
+	public function create($site_name, $username, $password, $password_conf) {
+		if (!empty($site_name) && !empty($username) && !empty($password) && !empty($password_conf)) {
+		    if ($this->passReq($password, $password_conf)) {
+                $new_config = array(
+                    'site_name' => $site_name,
+                    'users'     => array(
+                        $username => array('password' => $this->pHash($password), 'type' => 'admin')
+                    )
+                );
+
+                $this->write($new_config);
+
+                if ($this->check($new_config)) {
+                    return true;
+                } else {
+                    $this->error = 'An error occurred while creating the config, make sure "config/" is writable';
+                }
+            }
+        } else {
+		    $this->error = 'All fields are required';
+        }
+
+        return false;
 	}
 	
 	public function write($new_config) {
@@ -165,6 +206,7 @@ class Config {
 		fclose($fp);
 
 		$this->md5Config();
+        $this->get();
 	}
 
     public function writeMd5($config_md5) {

@@ -281,11 +281,49 @@ $router->get('/create', function () use ($twig) {
     echo $twig->render('create.twig');
 });
 
+$router->post('/create', function () use ($twig) {
+    $auth = new Auth();
+    $auth->isAuth();
+    $vars = array();
+
+    $album = new Album();
+
+    if (isset($_POST['title']) && isset($_POST['description'])) {
+        if (($album_slug = $album->create($_POST['title'], $_POST['description'], $_POST['tags'], $_POST['allowedUsers']))) {
+            header('Location: /album/'.$album_slug);
+            exit();
+        } else {
+            $vars['msg'] = array('type' => 'danger', 'msg' => $album->error);
+        }
+    } else {
+        $vars['msg'] = array('type' => 'danger', 'msg' => 'Title and description are required');
+    }
+    $vars['post'] = $_POST;
+
+    echo $twig->render('create.twig', $vars);
+});
+
 $router->get('/change-password', function () use ($twig) {
     $auth = new Auth();
     $auth->isAuth();
 
     echo $twig->render('change-password.twig');
+});
+
+$router->post('/change-password', function () use ($twig) {
+    $auth = new Auth();
+    $auth->isAuth();
+    $vars = array();
+
+    $config = new Config();
+
+    if ($config->changePassword($_SESSION['username'], $_POST['password'], $_POST['password-confirm'])) {
+        $vars['msg'] = array('type' => 'success', 'msg' => 'Password changed successfully');
+    } else {
+        $vars['msg'] = array('type' => 'danger', 'msg' => 'Failed to change password');
+    }
+
+    echo $twig->render('change-password.twig', $vars);
 });
 
 $router->get('/settings', function () use ($twig) {
@@ -295,11 +333,63 @@ $router->get('/settings', function () use ($twig) {
     echo $twig->render('settings.twig');
 });
 
+$router->post('/settings', function () use ($twig) {
+    $auth = new Auth();
+    $auth->isAuth(true, true);
+    $vars = array();
+
+    if(isset($_POST['name'])) {
+
+        $site_name = trim($_POST['name']);
+        if ($site_name != $_SESSION['config']['site_name']) {
+            $config_class->changeName($site_name);
+        }
+
+        if (isset($_POST['description'])) {
+            $site_description = trim($_POST['description']);
+            if ($site_description != $_SESSION['config']['site_description']) {
+                $config_class->changeDesc($site_description);
+            }
+        }
+
+        if (isset($_POST['ga_id'])) {
+            $ga_id = trim($_POST['ga_id']);
+            if ($ga_id != $_SESSION['config']['ga_id']) {
+                $config_class->changeGaid($ga_id);
+            }
+        }
+
+        $vars['msg'] = array('type' => 'success', 'msg' => 'Settings changed');
+
+    } else {
+        $vars['msg'] = array('type' => 'danger', 'msg' => 'Site name is required');
+    }
+
+    $vars['post'] = $_POST;
+
+    echo $twig->render('settings.twig', $vars);
+});
+
 $router->get('/add-user', function () use ($twig) {
     $auth = new Auth();
     $auth->isAuth(true, true);
 
     echo $twig->render('add-user.twig');
+});
+
+$router->post('/add-user', function () use ($twig) {
+    $auth = new Auth();
+    $auth->isAuth(true, true);
+    $config = new Config();
+    $vars = array();
+
+    if ($config->addUser($_POST['username'], $_POST['password'], $_POST['password-confirm'])) {
+        $vars['msg'] = 'User added successfully';
+    } else {
+        $vars['msg'] = $config->error;
+    }
+
+    echo $twig->render('add-user.twig', $vars);
 });
 
 $router->get('/delete-user', function () use ($twig) {
@@ -335,4 +425,21 @@ $router->post('/delete-user', function () use ($twig) {
 $router->get('/logout', function () {
     $auth = new Auth();
     $auth->logout();
+});
+
+$router->get('/setup', function () use ($twig) {
+    echo $twig->render('setup.twig');
+});
+
+$router->post('/setup', function () use ($twig) {
+    $config = new Config();
+
+    if ($config->create($_POST['site-name'], $_POST['username'], $_POST['password'], $_POST['password-confirm'])) {
+        header('Location: /');
+        exit();
+    } else {
+        $vars['msg'] = array('type' => 'danger', 'msg' => $config->error);
+    }
+
+    echo $twig->render('setup.twig');
 });
