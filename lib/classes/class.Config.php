@@ -99,10 +99,11 @@ class Config {
         if($this->passReq($password, $password_conf)) {
             if (isset($site_config['users'][$username])) {
 
-                $config['users'][$username]['password'] = $this->pHash($password);
-                $this->write($config);
+                $config_new = $this->site_config;
+                $config_new['users'][$username]['password'] = $this->pHash($password);
+                $this->write($config_new);
 
-                if ($this->check($config)) {
+                if ($this->check($config_new)) {
                     return true;
                 } else {
                     $this->error = 'An error occurred while changing the password, please try again';
