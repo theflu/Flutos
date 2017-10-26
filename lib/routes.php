@@ -145,7 +145,7 @@ $router->post('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
 // Delete album
 //
 
-$router->get('/album/{album_slug/delete', function ($album_slug) {
+$router->get('/album/{album_slug}/delete', function ($album_slug) {
     $auth = new Auth();
     $auth->isAuth();
 
