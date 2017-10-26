@@ -158,9 +158,10 @@ class Config {
 	}
 	
 	public function check($new_config) {
-		d($this->site_config);
-		d($new_config);
-		if($this->site_config == $new_config) return true;
+        $config = $this->site_config;
+		unset($config['md5']);
+		unset($new_config['md5']);
+		if($config == $new_config) return true;
 		
 		return false;
 	}
