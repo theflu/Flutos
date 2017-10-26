@@ -92,12 +92,11 @@ class Config {
     }
 	
 	public function changePassword($username, $password, $password_conf) {
-    d($username);
         $password = trim($password);
         $password_conf = trim($password_conf);
 
         if($this->passReq($password, $password_conf)) {
-            if (isset($site_config['users'][$username])) {
+            if (isset($this->site_config['users'][$username])) {
 
                 $config_new = $this->site_config;
                 $config_new['users'][$username]['password'] = $this->pHash($password);
