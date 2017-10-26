@@ -48,7 +48,7 @@
                   <div class="row edit-buttons" style="display: none;">
                       <div class="col-sm-12 text-left">
                           <button type="button" class="mt-2 btn btn-danger delete-button">Delete</button>
-                          <button class="float-right mt-2 btn default-button {% if image != config.default %}btn-outline-success default-image{% else %}btn-success{% endif %}" value="{{image}}">Default</button>
+                          <button class="float-right mt-2 btn default-button {% if image != config.default %}btn-outline-success{% else %}btn-success{% endif %}" {% if image != config.default %}id="default-image"{% endif %} value="{{image}}">Default</button>
                       </div>
                   </div>
                   {%  endif %}
@@ -112,11 +112,12 @@
 
         $('.default-button').click(function () {
             $.get('/album/{{ config.album_slug }}/'+$(this).val()+'/default');
-            $('.default-image').removeClass('btn-success');
-            $('.default-image').addClass('btn-outline-success');
-            $('.default-image').removeClass('default-image');
+            $('#default-image').removeClass('btn-success');
+            $('#default-image').addClass('btn-outline-success');
+            $('#default-image').removeAttr('id');
             $(this).removeClass('btn-outline-success');
-            $(this).addClass('btn-success default-image');
+            $(this).addClass('btn-success');
+            $(this).attr('id', 'default-image');
         });
     </script>
     {% endif %}
