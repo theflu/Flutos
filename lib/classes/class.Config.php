@@ -158,7 +158,8 @@ class Config {
 	}
 	
 	public function check($new_config) {
-		
+		d($this->site_config);
+		d($new_config);
 		if($this->site_config == $new_config) return true;
 		
 		return false;
