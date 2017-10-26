@@ -2,86 +2,122 @@
 
 class Album {
 	
+    public $album_slug = null;
+    public $album_config = null;
 	public $error;
-	public $allowed_filetypes = array('jpg', 'jpeg', 'png');
 	
-	public function get($album_slug, $images = false) {
-		
-		if (is_dir(_ALBUMS_.'/'.$album_slug)) {
-			if (file_exists(_ALBUMS_.'/'.$album_slug.'/config.json')) {
-				$config_json = file_get_contents(_ALBUMS_.'/'.$album_slug.'/config.json');
-				$config = json_decode($config_json, true);
-				
-				$iterator = new GlobIterator(_ALBUMS_.'/'.$album_slug.'/*');
-				if ($images) {
-					$images = array();
-					foreach($iterator as $filename){
-						$ext = explode('.', $filename);
-						$ext = $ext[count($ext)-1];
-						
-						if (strtolower($ext) != 'json') {
-							$img_name = explode('/', $filename);
-							array_push($images, $img_name[count($img_name)-1]);
-							
-							if (!isset($config['default'])) $config['default'] = $img_name[count($img_name)-1];
-						}
-					}
-					$config['images'] = $images;
-				} else {
-					foreach($iterator as $filename){
-						$ext = explode('.', $filename);
-						$ext = $ext[count($ext)-1];
-						
-						if (strtolower($ext) != 'json') {
-							$img_name = explode('/', $filename);
-							
-							if (!isset($config['default'])) {
-								$config['default'] = $img_name[count($img_name)-1];
-								break;
-							}
-						}
-					}
-				}
-				
-				$config['image_total'] = $iterator->count() - 1;
-				$config['album_slug'] = $album_slug;
-				
-				return $config;
-			}
-			
-			$this->error = 'Album configuration file missing';
-			return false;
-		}
-		
-		$this->error = 'Album does not exist';
-		return false;
-	}
+	public function __construct ($album_slug = null) {
+	    if (!is_null($album_slug) && is_dir(_ALBUMS_.'/'.$album_slug)) {
+            if (file_exists(_ALBUMS_.'/'.$album_slug.'/config.json')) {
+                $this->album_slug = $album_slug;
+            }
+        }
+    }
+    
+    public function config ($album_slug = null) {
+        if (is_null($album_slug)) $album_slug = $this->album_slug;
+
+        $iterator = new GlobIterator(_ALBUMS_ . '/' . $album_slug . '/*');
+
+        $config_json = file_get_contents(_ALBUMS_.'/'.$album_slug.'/config.json');
+        $config = json_decode($config_json, true);
+
+        $config['album_slug'] = $album_slug;
+        $config['image_total'] = $iterator->count() - 1;
+
+        if (!isset($config['default']) || !file_exists(_ALBUMS_.'/'.$album_slug.'/'.$config['default'])) {
+            foreach($iterator as $filename){
+                if (substr($filename, -5) != '.json') {
+                    $img_name = explode('/', $filename);
+
+                    $config['default'] = $img_name[count($img_name)-1];
+                    break;
+                }
+            }
+        }
+
+        $this->album_config = $config;
+
+        return $config;
+    }
+
+    public function owner () {
+	    if (is_null($this->album_config)) $this->config();
+
+	    return $this->album_config['owner'];
+    }
+
+    public function users () {
+        if (is_null($this->album_config)) $this->config();
+
+        return $this->album_config['users'];
+    }
 	
-	public function getAll($images = false) {
-		
+	public function images($album_slug = null) {
+
+	    if (is_null($album_slug)) $album_slug = $this->album_slug;
+        $iterator = new GlobIterator(_ALBUMS_ . '/' . $album_slug . '/*');
+
+        $images = array();
+
+        foreach ($iterator as $filename) {
+            if (substr($filename, -5) != '.json') {
+                $img_name = explode('/', $filename);
+                array_push($images, $img_name[count($img_name) - 1]);
+            }
+        }
+
+        return $images;
+    }
+
+	public function getAll($start = 0, $limit = 9) {
+
+	    $i = 1;
 		$albums = array();
 		foreach(glob(_ALBUMS_.'/*') as $album) {
-			
-			$album_slug = explode('/', $album);
-			$album_slug = $album_slug[count($album_slug)-1];
-			
-			if (($album_data = $this->get($album_slug, $images))) array_push($albums, $album_data);
+
+		    if ($i > $start) {
+                if ($i <= ($start + $limit)) {
+                    $album_slug = explode('/', $album);
+                    $album_slug = $album_slug[count($album_slug) - 1];
+
+                    if (($album_config = $this->config($album_slug))) array_push($albums, $album_config);
+                } else {
+                    break;
+                }
+                $i++;
+            }
 		}
 		
 		return $albums;
 	}
 	
-	public function getTag($tag, $images = false) {
-		
-		$albums = $this->getAll($images);
-		foreach($albums as $key => $album) {
-			if(!isset($album['tags']) || !is_array($album['tags']) || !in_array($tag, $album['tags'])) unset($albums[$key]);
-		}
-		
-		return $albums;
+	public function byTag($tag, $start = 0, $limit = 9) {
+
+        $i = 1;
+        $albums = array();
+        foreach(glob(_ALBUMS_.'/*') as $album) {
+            $album_slug = explode('/', $album);
+            $album_slug = $album_slug[count($album_slug) - 1];
+
+            if (($album_config = $this->config($album_slug))) {
+                if(isset($album_config['tags']) && is_array($album_config['tags']) && in_array($tag, $album_config['tags'])) {
+                    if ($i > $start) {
+                        if ($i <= ($start + $limit)) {
+                            array_push($albums, $album_config);
+                        } else {
+                            break;
+                        }
+                    }
+                    $i++;
+                }
+            }
+        }
+
+        return $albums;
 	}
 	
-	public function getTags() {
+	public function allTags() {
 		
 		$tags = array();
 		$albums = $this->getAll();
@@ -102,56 +138,54 @@ class Album {
 		return $tags_weighted;
 	}
 	
-	public function showImage($album, $image, $thumbnail = false) {
-		
-		if (is_dir(_ALBUMS_.'/'.$album)) {
-			if (file_exists(_ALBUMS_.'/'.$album.'/'.$image)) {
-				 $mime_type = mime_content_type(_ALBUMS_.'/'.$album.'/'.$image);
-				 header('Content-Type: '.$mime_type);
-				 if ($thumbnail) {
-					$imagick = new \Imagick(realpath(_ALBUMS_.'/'.$album.'/'.$image));
-					$imagick->thumbnailImage(275, 275, true);
-					echo $imagick->getImageBlob(); 
-				 } else {
-					readfile(_ALBUMS_.'/'.$album.'/'.$image);
-				 }
-				 
-				 return true;
+	public function showImage($image) {
+		$thumbnail = false;
+
+		if (substr($image, 0, 3) == 'th_') {
+		    $image = substr($image, 3);
+		    $thumbnail = true;
+        }
+
+        if (file_exists(_ALBUMS_.'/'.$this->album_slug.'/'.$image)) {
+
+		    $mime_type = mime_content_type(_ALBUMS_.'/'.$this->album_slug.'/'.$image);
+			header('Content-Type: '.$mime_type);
+
+			if ($thumbnail) {
+
+			    $imagick = new \Imagick(realpath(_ALBUMS_.'/'.$this->album_slug.'/'.$image));
+				$imagick->thumbnailImage(275, 275, true);
+				echo $imagick->getImageBlob();
+
+			} else {
+				readfile(_ALBUMS_.'/'.$this->album_slug.'/'.$image);
 			}
-			
-			$this->error = 'Image does not exist';
-			return false;
+
+			 return true;
 		}
-		
-		$this->error = 'Album does not exist';
+
+		$this->error = 'Image does not exist';
 		return false;
+
 	}
 	
-	public function saveImage($album, $image) {
+	public function upload($image) {
 		if (!exif_imagetype($image['tmp_name'])) {
 			$this->error = 'Image not valid';
 			return false;
 		}
-		
-		if (is_dir(_ALBUMS_.'/'.$album)) {
+
+        $new_name  = false;
 			
-			$new_name  = false;
-			
-			while (!$new_name) {
-				$new_name = generateRandomString();
-				
-				if (file_exists(_ALBUMS_.'/'.$album.'/'.$image)) $new_name = false;
-			}
-			d($image);
-			d($new_name);
-			d(_ALBUMS_.'/'.$album.'/'.$new_name);
-			if (move_uploaded_file($image['tmp_name'], _ALBUMS_.'/'.$album.'/'.$new_name)) return true;
-			
-			$this->error = 'Failed to save image';
-			return false;
+		while (!$new_name) {
+			$new_name = generateRandomString();
+
+		    if (file_exists(_ALBUMS_.'/'.$this->album_slug.'/'.$image)) $new_name = false;
 		}
-		
-		$this->error = 'Album does not exist';
+
+		if (move_uploaded_file($image['tmp_name'], _ALBUMS_.'/'.$this->album_slug.'/'.$new_name)) return true;
+
+		$this->error = 'Failed to save image';
 		return false;
 	}
 	
@@ -160,7 +194,7 @@ class Album {
 			$title = trim($title);
 			$album_slug = str_replace(' ', '-', strtolower($title));
 			
-			if (!$this->get($album_slug)) {
+			if (!is_dir(_ALBUMS_.'/'.$album_slug)) {
 				if (mkdir(_ALBUMS_.'/'.$album_slug)) {
 					$config = array(
 						'title' => $title,
@@ -200,13 +234,13 @@ class Album {
 					fwrite($fp, json_encode($config));
 					fclose($fp);
 					
-					if (file_exists(_ALBUMS_.'/'.$album_slug.'/config.json')) return true;
+					if (file_exists(_ALBUMS_.'/'.$album_slug.'/config.json')) return $album_slug;
 					
 					$this->error = 'Failed to make album config';
 					return false;
 				}
 				
-				$this->error = 'Failed to make album direcory';
+				$this->error = 'Failed to make album directory';
 				return false;
 			}
 			
@@ -218,11 +252,11 @@ class Album {
 		return false;
 	}
 	
-	public function edit($album_slug, $title, $description, $tags, $users) {
+	public function edit($title, $description, $tags, $users) {
 		if (preg_match('/^[a-zA-Z0-9 ]+$/', $title)) {
 			$title = trim($title);
 
-            if (($old_config = $this->get($album_slug))) {
+            if (($old_config = $this->config())) {
                 $config = array(
                     'title' => $title,
                     'description' => $description,
@@ -245,7 +279,8 @@ class Album {
 				
 				if ($users) {
 					$users = array_map('trim', $users);
-					
+					$users = array_map('strtolower', $users);
+
 					foreach ($users as $k => $user) {
 						if (!ctype_alnum($user)) unset($users[$k]);
 					}
@@ -258,7 +293,7 @@ class Album {
 				$config['tags'] = $tags;
 				$config['users'] = $users;
 				
-				$fp = fopen(_ALBUMS_.'/'.$album_slug.'/config.json', 'w+');
+				$fp = fopen(_ALBUMS_.'/'.$this->album_slug.'/config.json', 'w+');
 				fwrite($fp, json_encode($config));
 				fclose($fp);
 				
@@ -273,11 +308,11 @@ class Album {
 		return false;
 	}
 
-    public function delete($album_slug) {
+    public function delete() {
 
-        if (preg_match('/^[a-zA-Z0-9-]+$/', $album_slug)) {
-            if (is_dir(_ALBUMS_ . '/' . $album_slug)) {
-                $dir = _ALBUMS_ . '/' . $album_slug;
+        if (preg_match('/^[a-zA-Z0-9-]+$/', $this->album_slug)) {
+            if (is_dir(_ALBUMS_ . '/' . $this->album_slug)) {
+                $dir = _ALBUMS_ . '/' . $this->album_slug;
 
                 $it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
                 $files = new RecursiveIteratorIterator($it,
@@ -294,24 +329,18 @@ class Album {
         }
     }
 
-    public function deletePhoto($album_slug, $image) {
-        $dir = _ALBUMS_ . '/' . $album_slug;
-
-        if (preg_match('/^[a-zA-Z0-9-]+$/', $album_slug)) {
-            if ($this->get($album_slug)) {
-                unlink($dir.'/'.$image);
-            }
+    public function deletePhoto($image) {
+        if (preg_match('/^[a-zA-Z0-9-]+$/', $image)) {
+            unlink(_ALBUMS_ . '/' . $this->album_slug.'/'.$image);
         }
     }
 
-    public function setDefault($album_slug, $image) {
-        $dir = _ALBUMS_ . '/' . $album_slug;
-
-        if (preg_match('/^[a-zA-Z0-9-]+$/', $album_slug)) {
-            if (($config = $this->get($album_slug, false))) {
+    public function setDefault($image) {
+        if (preg_match('/^[a-zA-Z0-9-]+$/', $image) && file_exists(_ALBUMS_.'/'.$this->album_slug.'/'.$image)) {
+            if (($config = $this->config())) {
                 $config['default'] = $image;
 
-                $fp = fopen(_ALBUMS_.'/'.$album_slug.'/config.json', 'w+');
+                $fp = fopen(_ALBUMS_.'/'.$this->album_slug.'/config.json', 'w+');
                 fwrite($fp, json_encode($config));
                 fclose($fp);
             }

@@ -11,12 +11,12 @@
 
 		<section class="jumbotron text-center">
 			<div class="container">
-				<h1 class="jumbotron-heading">{{name}}</h1>
-				<p class="lead text-muted">{{description}}</p>
+				<h1 class="jumbotron-heading">{{ config.title }}</h1>
+				<p class="lead text-muted">{{ config.description }}</p>
 				{% if tags %}
 				<p>
-					{% for tag in tags %}
-					<a href="/tag/{{tag}}" class="badge badge-info">{{tag}}</a>
+					{% for tag in config.tags %}
+					<a href="/tag/{{ tag }}" class="badge badge-info">{{ tag }}</a>
 					{% endfor %}
 				</p>
 				{% endif %}
@@ -37,7 +37,7 @@
 							</div>
 						</form>
 						<br>
-						<a href="/a/{{album_slug}}" class="btn btn-success btn-lg">Done</a>
+						<a href="/album/{{ config.album_slug }}" class="btn btn-success btn-lg">Done</a>
 					</div>
 				</div>
 			</div>

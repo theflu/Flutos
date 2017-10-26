@@ -24,9 +24,9 @@ spl_autoload_register(function ($class)
 });
 
 // Get config
-$config_class = new Config;
-if (!isset($_SESSION['config']['md5']) || $_SESSION['config']['md5'] != $config_class->getMd5()) {
-    $config = $config_class->get();
+$site_config = new Config;
+if (!isset($_SESSION['config']['md5']) || $_SESSION['config']['md5'] != $site_config->getMd5()) {
+    $config = $site_config->get();
     if (!$config && $_SERVER['REQUEST_URI'] != '/setup') {
         header('Location: /setup');
         exit();
@@ -40,7 +40,7 @@ if (!isset($_SESSION['config']['md5']) || $_SESSION['config']['md5'] != $config_
         }
     }
 }
-unset($config_class);
+unset($site_config);
 
 // Configure Twig
 $loader = new Twig_Loader_Filesystem(_LIB_.'/pages');
@@ -61,3 +61,6 @@ if ($auth->isAuth(false)) {
     $_SESSION['last_active'] = time();
 }
 unset($auth);
+
+// Load Routes
+require _LIB_.'/routes.php';
