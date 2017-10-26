@@ -17,7 +17,7 @@ if (isset($query[1]))$query[1] = strtolower($query[1]);
 //
 if (empty($query[0])) {
 	$albums = $album_class->getAll();
-	echo $twig->render('catalog.twig', array('albums' => $albums));
+	echo $twig->render('albums.twig', array('albums' => $albums));
 }
 
 
@@ -171,7 +171,7 @@ if ($query[0] == 'change-password') {
 		$vars['username'] = $_POST['username'];
 	}
 
-	echo $twig->render('change-password.twig', $vars);
+	echo $twig->render('user-password-change.twig', $vars);
 }
 
 
@@ -223,7 +223,7 @@ if ($query[0] == 'add-user') {
 		$vars['username'] = $_POST['username'];
 	}
 
-	echo $twig->render('add-user.twig', $vars);
+	echo $twig->render('user-add.twig', $vars);
 }
 
 
@@ -248,7 +248,7 @@ if ($query[0] == 'delete-user') {
 
 	$vars['users'] = $_SESSION['config']['users'];
 
-	echo $twig->render('delete-user.twig', $vars);
+	echo $twig->render('user-delete.twig', $vars);
 }
 
 
@@ -271,7 +271,7 @@ if ($query[0] == 'u') {
 			if ($_FILES && isset($_FILES['image'])) {
 				if (!$album_class->saveImage($query[1], $_FILES['image'])) echo $album_class->error;
 			} else {
-				echo $twig->render('upload.twig', $album);
+				echo $twig->render('album-upload.twig', $album);
 			}
 		} else {
 			header('Location: /');
@@ -391,7 +391,7 @@ if ($query[0] == 'create') {
 		$vars['post'] = $_POST;
 	}
 
-	echo $twig->render('create.twig', $vars);
+	echo $twig->render('album-create.twig', $vars);
 }
 
 

@@ -17,7 +17,7 @@ $router->get('/', function () use ($twig) {
     $album = new Album;
     $albums = $album->getAll();
 
-    echo $twig->render('catalog.twig', array('albums' => $albums));
+    echo $twig->render('albums.twig', array('albums' => $albums));
 });
 
 
@@ -29,7 +29,7 @@ $router->get('/page/{page}', function ($page) use ($twig) {
     $album = new Album;
     $albums = $album->getAll($page);
 
-    echo $twig->render('catalog.twig', array('albums' => $albums));
+    echo $twig->render('albums.twig', array('albums' => $albums));
 });
 
 
@@ -60,7 +60,7 @@ $router->get('/album/{album_slug}/upload', function ($album_slug) use ($twig) {
     $album = new Album($album_slug);
 
     if ($album->album_slug && ($_SESSION['username'] == $album->owner() || in_array($_SESSION['username'], $album->users()))) {
-        echo $twig->render('upload.twig', array('config' => $album->config()));
+        echo $twig->render('album-upload.twig', array('config' => $album->config()));
     } else {
         $auth->redirect();
     }
@@ -286,7 +286,7 @@ $router->get('/create', function () use ($twig) {
     $auth = new Auth();
     $auth->isAuth();
 
-    echo $twig->render('create.twig');
+    echo $twig->render('album-create.twig');
 });
 
 $router->post('/create', function () use ($twig) {
@@ -308,7 +308,7 @@ $router->post('/create', function () use ($twig) {
     }
     $vars['post'] = $_POST;
 
-    echo $twig->render('create.twig', $vars);
+    echo $twig->render('album-create.twig', $vars);
 });
 
 
@@ -320,7 +320,7 @@ $router->get('/change-password', function () use ($twig) {
     $auth = new Auth();
     $auth->isAuth();
 
-    echo $twig->render('change-password.twig');
+    echo $twig->render('user-password-change.twig');
 });
 
 $router->post('/change-password', function () use ($twig) {
@@ -336,7 +336,7 @@ $router->post('/change-password', function () use ($twig) {
         $vars['msg'] = array('type' => 'danger', 'msg' => $config->error);
     }
 
-    echo $twig->render('change-password.twig', $vars);
+    echo $twig->render('user-password-change.twig', $vars);
 });
 
 
@@ -398,7 +398,7 @@ $router->get('/add-user', function () use ($twig) {
     $auth = new Auth();
     $auth->isAuth(true, true);
 
-    echo $twig->render('add-user.twig');
+    echo $twig->render('user-add.twig');
 });
 
 $router->post('/add-user', function () use ($twig) {
@@ -413,7 +413,7 @@ $router->post('/add-user', function () use ($twig) {
         $vars['msg'] = $config->error;
     }
 
-    echo $twig->render('add-user.twig', $vars);
+    echo $twig->render('user-add.twig', $vars);
 });
 
 
@@ -427,7 +427,7 @@ $router->get('/delete-user', function () use ($twig) {
 
     $vars = array('users' => $_SESSION['config']['users']);
 
-    echo $twig->render('delete-user.twig', $vars);
+    echo $twig->render('user-delete.twig', $vars);
 });
 
 $router->post('/delete-user', function () use ($twig) {
@@ -448,7 +448,7 @@ $router->post('/delete-user', function () use ($twig) {
 
     if (!isset($vars['users']))$vars['users'] = $_SESSION['config']['users'];
 
-    echo $twig->render('delete-user.twig', $vars);
+    echo $twig->render('user-delete.twig', $vars);
 });
 
 
