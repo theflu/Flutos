@@ -111,11 +111,11 @@
         });
 
         $('.default-button').click(function () {
-            $.get('/album/{{ config.album_slug }}/'+$(this).val());
-            $('.default-image').removeClass('btn-outline-success');
-            $('.default-image').addClass('btn-success');
+            $.get('/album/{{ config.album_slug }}/'+$(this).val()+'/default');
+            $('.default-image').removeClass('btn-success');
+            $('.default-image').addClass('btn-outline-success');
             $('.default-image').removeClass('default-image');
-            $(this).addClass('btn-outline-success default-image');
+            $(this).addClass('btn-success default-image');
         });
     </script>
     {% endif %}
