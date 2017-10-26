@@ -311,7 +311,7 @@ if ($query[0] == 'e') {
 				$vars['post'] = $_POST;
 			}
 
-			echo $twig->render('edit.twig', $vars);
+			echo $twig->render('album-edit.twig', $vars);
 		} else {
 			header('Location: /');
 			exit();

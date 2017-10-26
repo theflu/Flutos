@@ -98,7 +98,7 @@ $router->get('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
     if ($album->album_slug && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
         $site_config = new Config();
 
-        echo $twig->render('edit.twig', array('config' => $album->config(), 'users' => $site_config->users()));
+        echo $twig->render('album-edit.twig', array('config' => $album->config(), 'users' => $site_config->users()));
     } else {
         $auth->redirect();
     }
@@ -134,7 +134,7 @@ $router->post('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
         $vars['users'] =$site_config->users();
         $vars['post'] = $_POST;
 
-        echo $twig->render('edit.twig', $vars);
+        echo $twig->render('album-edit.twig', $vars);
     } else {
         $auth->redirect();
     }
