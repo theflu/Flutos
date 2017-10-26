@@ -92,7 +92,7 @@ class Config {
     }
 	
 	public function changePassword($username, $password, $password_conf) {
-
+    d($username);
         $password = trim($password);
         $password_conf = trim($password_conf);
 
