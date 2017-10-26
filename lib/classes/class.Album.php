@@ -234,7 +234,7 @@ class Album {
 					fwrite($fp, json_encode($config));
 					fclose($fp);
 					
-					if (file_exists(_ALBUMS_.'/'.$album_slug.'/config.json')) return true;
+					if (file_exists(_ALBUMS_.'/'.$album_slug.'/config.json')) return $album_slug;
 					
 					$this->error = 'Failed to make album config';
 					return false;
