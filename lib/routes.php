@@ -408,9 +408,9 @@ $router->post('/add-user', function () use ($twig) {
     $vars = array();
 
     if ($config->addUser($_POST['username'], $_POST['password'], $_POST['password-confirm'])) {
-        $vars['msg'] = 'User added successfully';
+        $vars['msg'] = array('type' => 'danger', 'msg' => 'User added successfully');
     } else {
-        $vars['msg'] = $config->error;
+        $vars['msg'] = array('type' => 'danger', 'msg' => $config->error);
     }
 
     echo $twig->render('user-add.twig', $vars);
