@@ -336,26 +336,27 @@ $router->get('/settings', function () use ($twig) {
 $router->post('/settings', function () use ($twig) {
     $auth = new Auth();
     $auth->isAuth(true, true);
+    $config = new Config();
     $vars = array();
 
     if(isset($_POST['name'])) {
 
         $site_name = trim($_POST['name']);
         if ($site_name != $_SESSION['config']['site_name']) {
-            $config_class->changeName($site_name);
+            $config->changeName($site_name);
         }
 
         if (isset($_POST['description'])) {
             $site_description = trim($_POST['description']);
             if ($site_description != $_SESSION['config']['site_description']) {
-                $config_class->changeDesc($site_description);
+                $config->changeDesc($site_description);
             }
         }
 
         if (isset($_POST['ga_id'])) {
             $ga_id = trim($_POST['ga_id']);
             if ($ga_id != $_SESSION['config']['ga_id']) {
-                $config_class->changeGaid($ga_id);
+                $config->changeGaid($ga_id);
             }
         }
 
