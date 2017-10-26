@@ -202,6 +202,7 @@ class Config {
 	}
 	
 	public function write($new_config) {
+		unset($new_config['md5']);
 		
 		$fp = fopen($this->config_path, 'w+');
 		fwrite($fp, json_encode($new_config));
