@@ -23,14 +23,14 @@
 
       <form class="form-signin" method="POST">
         <h2 class="form-signin-heading">Setup {{_SITE_NAME_}}</h2>
-        <label for="siteName" class="sr-only">Site Name</label>
-        <input type="text" id="siteName" name="siteName" class="form-control start" placeholder="Site Name" value="{{post.siteName}}" required autofocus>
+        <label for="site-name" class="sr-only">Site Name</label>
+        <input type="text" id="site-name" name="site-name" class="form-control start" placeholder="Site Name" value="{{post.siteName}}" required autofocus>
         <label for="username" class="sr-only">Username</label>
         <input type="text" id="username" name="username" class="form-control middle" placeholder="Username" value="{{post.username}}" required>
 		<label for="password" class="sr-only">Password</label>
         <input type="password" id="password" name="password" class="form-control middle" placeholder="Password" required>
-		<label for="passwordConf" class="sr-only">Confirm Password</label>
-        <input type="password" id="passwordConf" name="passwordConf" class="form-control end" placeholder="Confirm Password" required>
+		<label for="password-confirm" class="sr-only">Confirm Password</label>
+        <input type="password" id="password-confirm" name="password-confirm" class="form-control end" placeholder="Confirm Password" required>
 		
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
 		{% if msg %}<br><div class="alert alert-{{msg.type}} text-center" role="alert">{{msg.msg}}</div>{% endif %}
