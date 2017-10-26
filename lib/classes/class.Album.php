@@ -101,7 +101,7 @@ class Album {
             $album_slug = $album_slug[count($album_slug) - 1];
 
             if (($album_config = $this->config($album_slug))) {
-                if(!isset($album['tags']) || !is_array($album['tags']) || !in_array($tag, $album['tags'])) {
+                if(isset($album['tags']) || is_array($album['tags']) || in_array($tag, $album['tags'])) {
                     if ($i > $start) {
                         if ($i <= ($start + $limit)) {
                             array_push($albums, $album_config);
