@@ -52,7 +52,7 @@
 					{% endif %}
 					<hr>
 					<button type="submit" class="btn btn-success">Save</button>
-					<a href="/album/{{album_slug}}" class="btn btn-warning">Cancel</a>
+					<a href="/album/{{ config.album_slug }}" class="btn btn-warning">Cancel</a>
 					<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
 				</form>
 				{% if msg %}<br><div class="alert alert-{{ msg.type }} text-center" role="alert">{{ msg.msg }}</div>{% endif %}
