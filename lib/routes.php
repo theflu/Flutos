@@ -320,7 +320,7 @@ $router->post('/change-password', function () use ($twig) {
     if ($config->changePassword($_SESSION['username'], $_POST['password'], $_POST['password-confirm'])) {
         $vars['msg'] = array('type' => 'success', 'msg' => 'Password changed successfully');
     } else {
-        $vars['msg'] = array('type' => 'danger', 'msg' => 'Failed to change password');
+        $vars['msg'] = array('type' => 'danger', 'msg' => $config->error);
     }
 
     echo $twig->render('change-password.twig', $vars);
