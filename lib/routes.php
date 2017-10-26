@@ -59,7 +59,7 @@ $router->get('/album/{album_slug}/upload', function ($album_slug) use ($twig) {
 
     $album = new Album($album_slug);
 
-    if ($album && ($_SESSION['username'] == $album->owner() || in_array($_SESSION['username'], $album->users()))) {
+    if ($album->album_slug && ($_SESSION['username'] == $album->owner() || in_array($_SESSION['username'], $album->users()))) {
         echo $twig->render('upload.twig', array('config' => $album->config()));
     } else {
         $auth->redirect();
@@ -77,7 +77,7 @@ $router->post('/album/{album_slug}/upload', function ($album_slug) {
 
     $album = new Album($album_slug);
 
-    if ($album && ($_SESSION['username'] == $album->owner() || in_array($_SESSION['username'], $album->users()))) {
+    if ($album->album_slug && ($_SESSION['username'] == $album->owner() || in_array($_SESSION['username'], $album->users()))) {
         if ($_FILES && isset($_FILES['image'])) $album->upload($_FILES['image']);
     } else {
         $auth->redirect();
@@ -95,7 +95,7 @@ $router->get('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
 
     $album = new Album($album_slug);
 
-    if ($album && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
+    if ($album->album_slug && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
         $site_config = new Config();
 
         echo $twig->render('edit.twig', array('config' => $album->config(), 'users' => $site_config->users()));
@@ -117,7 +117,7 @@ $router->post('/album/{album_slug}/edit', function ($album_slug) use ($twig) {
 
     $vars = array();
 
-    if ($album && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
+    if ($album->album_slug && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
         if (isset($_POST['title']) && isset($_POST['description'])) {
             if ($album->edit($_POST['title'], $_POST['description'], $_POST['tags'], $_POST['allowedUsers'])) {
                 $vars['msg'] = array('type' => 'success', 'msg' => 'Album updated successfully');
@@ -151,8 +151,11 @@ $router->get('/album/{album_slug}/delete', function ($album_slug) {
 
     $album = new Album($album_slug);
 
-    if ($album && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
+    if ($album->album_slug && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
         $album->delete();
+
+        header('Location: /');
+        exit();->$this->album_slug
     } else {
         $auth->redirect();
     }
@@ -169,7 +172,7 @@ $router->get('/album/{album_slug/{image}}/default', function ($album_slug, $imag
 
     $album = new Album($album_slug);
 
-    if ($album && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
+    if ($album->album_slug && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
         $album->setDefault($image);
     } else {
         $auth->redirect();
@@ -187,7 +190,7 @@ $router->get('/album/{album_slug}/{image}/delete', function ($album_slug, $image
 
     $album = new Album($album_slug);
 
-    if ($album && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
+    if ($album->album_slug && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
         $album->deletePhoto($image);
     } else {
         $auth->redirect();
