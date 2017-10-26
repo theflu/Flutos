@@ -110,9 +110,10 @@
             $('#delete-modal').modal('show');
         });
 
-        $('.delete-confirm').click(function () {
+        $('#delete-confirm').click(function () {
             $.get('/album/{{ config.album_slug }}/'+$(this).val()+'/delete');
             $('#'+$(this).val()).hide();
+            $('#delete-modal').modal('hide');
         });
 
         $('.default-button').click(function () {
