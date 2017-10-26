@@ -33,7 +33,7 @@ class Config {
     }
 	
 	public function siteName() {
-		$config = $this->get();
+		$config = $$this->site_config;
 		
 		return $config['site_name'];
 	}
@@ -65,7 +65,7 @@ class Config {
 	
 	public function deleteUser($username) {
 		
-		$config = $this->get();
+		$config = $this->site_config;
 		
 		unset($config['users'][$username]);
 		
@@ -117,7 +117,7 @@ class Config {
 
     public function changeName($site_name) {
 
-        $config = $this->get();
+        $config = $this->site_config;
 
         $config['site_name'] = $site_name;
         $this->write($config);
@@ -127,7 +127,7 @@ class Config {
 
     public function changeDesc($site_desc) {
 
-        $config = $this->get();
+        $config = $this->site_config;
 
         if (is_null($site_desc)) {
             unset($config['site_description']);
@@ -141,7 +141,7 @@ class Config {
 
     public function changeGaid($ga_id) {
 
-        $config = $this->get();
+        $config = $this->site_config;
 
         if (is_null($ga_id)) {
             unset($config['ga_id']);
@@ -203,7 +203,7 @@ class Config {
 	
 	public function write($new_config) {
 		unset($new_config['md5']);
-		
+
 		$fp = fopen($this->config_path, 'w+');
 		fwrite($fp, json_encode($new_config));
 		fclose($fp);
