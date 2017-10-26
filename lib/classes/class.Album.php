@@ -330,7 +330,7 @@ class Album {
     }
 
     public function deletePhoto($image) {
-        if (preg_match('/^[a-zA-Z0-9-]+$/', $$image)) {
+        if (preg_match('/^[a-zA-Z0-9-]+$/', $image)) {
             unlink(_ALBUMS_ . '/' . $this->album_slug.'/'.$image);
         }
     }
