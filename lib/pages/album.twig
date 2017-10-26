@@ -111,6 +111,7 @@
         });
 
         $('#delete-confirm').click(function () {
+            console.log($(this).val());
             $.get('/album/{{ config.album_slug }}/'+$(this).val()+'/delete');
             $('#'+$(this).val()).hide();
             $('#delete-modal').modal('hide');
