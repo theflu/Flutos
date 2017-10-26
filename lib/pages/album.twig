@@ -42,7 +42,7 @@
           {% set i = 1 %}
 		  {% for image in images %}
 		  {% if i == 1 %}<div class="col-md-4"> {% endif %}
-			  <div class="card">
+			  <div class="card" id="{{ image }}">
 				  <a href="/album/{{ config.album_slug }}/{{ image }}" data-lightbox="{{ config.album_slug }}" class="gallery"><img src="/album/{{ config.album_slug }}/th_{{ image }}"></a>
                   {% if _SESSION_.user_type == 'admin' or _SESSION_.username == config.owner %}
                   <div class="row edit-buttons" style="display: none;">
@@ -78,7 +78,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a href="#" id="delete-confirm" class="btn btn-danger">Delete</a>
+                    <button id="delete-confirm" class="btn btn-danger">Delete</button>
                 </div>
             </div>
         </div>
@@ -106,8 +106,13 @@
         });
 
         $('.delete-button').click(function () {
-            $('#delete-confirm').attr('href', '/album/{{ album_slug }}/'+$(this).val()+'/delete')
+            $('#delete-confirm').val($(this).val());
             $('#delete-modal').modal('show');
+        });
+
+        $('.delete-confirm').click(function () {
+            $.get('/album/{{ config.album_slug }}/'+$(this).val()+'/delete');
+            $('#'+$(this).val()).hide();
         });
 
         $('.default-button').click(function () {
