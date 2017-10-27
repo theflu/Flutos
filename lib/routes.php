@@ -485,7 +485,7 @@ $router->post('/setup', function () use ($twig) {
 
 
 //
-// Show albums
+// 404
 //
 
 $router->set404(function () use ($twig) {
