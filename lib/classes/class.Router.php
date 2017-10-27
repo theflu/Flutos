@@ -116,8 +116,9 @@ class Router
                     return call_user_func_array($route['callback'], $params);
                 }
             }
-d($this->routes['404']);
+
             if (!$route_match && isset($this->routes['404']['callback'])) {
+                d($this->routes['404']);
                 return call_user_func($this->routes['404']['callback']);
             }
 
