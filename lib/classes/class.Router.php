@@ -107,7 +107,7 @@ class Router
                         }
                     }
                 }
-
+d($this->routes);
                 if ($route_match) {
                     return call_user_func_array($route['callback'], $params);
                 } elseif (isset($this->routes['404']) && is_callable($this->routes['404'])) {
