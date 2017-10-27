@@ -17,7 +17,7 @@ class Album {
     public function config ($album_slug = null) {
         if (is_null($album_slug)) $album_slug = $this->album_slug;
 
-        $iterator = new GlobIterator(_ALBUMS_ . '/' . $album_slug . '/*');
+        $iterator = new GlobIterator(_ALBUMS_ . '/' . $album_slug . '/^[^(th_)]*');
 
         $config_json = file_get_contents(_ALBUMS_.'/'.$album_slug.'/config.json');
         $config = json_decode($config_json, true);
