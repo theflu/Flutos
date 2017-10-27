@@ -63,8 +63,10 @@ class Album {
         foreach ($iterator as $filename) {
             if (substr($filename, -5) != '.json') {
                 $img_name = explode('/', $filename);
+                $img_name = $img_name[count($img_name) - 1];
+
                 if (substr($img_name, 0, 3) != 'th_') {
-                    array_push($images, $img_name[count($img_name) - 1]);
+                    array_push($images, $img_name);
                 }
             }
         }
