@@ -174,6 +174,7 @@ class Album {
 	public function upload($image) {
 		if (!exif_imagetype($image['tmp_name'])) {
 			$this->error = 'Image not valid';
+			echo 'failed image type';
 			return false;
 		}
 
@@ -184,7 +185,8 @@ class Album {
 
 		    if (file_exists(_ALBUMS_.'/'.$this->album_slug.'/'.$image)) $new_name = false;
 		}
-
+echo $image['tmp_name'];
+		echo $new_name;
 		$this->rotateImage($image['tmp_name']);
 
 		if (move_uploaded_file($image['tmp_name'], _ALBUMS_.'/'.$this->album_slug.'/'.$new_name)) return true;
