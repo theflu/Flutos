@@ -23,8 +23,6 @@ class Router
     }
 
     public function set404 ($callback) {
-        if (isset($this->routes['404'])) $this->routes['404'] = array();
-
         array_push($this->routes['404'], $callback);
     }
 
