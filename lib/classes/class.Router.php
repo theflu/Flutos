@@ -23,7 +23,11 @@ class Router
     }
 
     public function set404 ($callback) {
-        array_push($this->routes['404'], $callback);
+        if (is_callable($callback)) {
+            array_push($this->routes['404'], $callback);
+        } else {
+            die('not callable');
+        }
     }
 
     public function redirect ($uri, $to, $code = 301) {
