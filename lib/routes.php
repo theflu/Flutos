@@ -482,3 +482,12 @@ $router->post('/setup', function () use ($twig) {
 
     echo $twig->render('setup.twig', $vars);
 });
+
+
+//
+// Show albums
+//
+
+$router->set404(function () use ($twig) {
+    echo $twig->render('404.twig');
+});
