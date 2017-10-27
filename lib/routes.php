@@ -191,7 +191,7 @@ $router->get('/album/{album_slug}/{image}/delete', function ($album_slug, $image
     $album = new Album($album_slug);
 
     if ($album->album_slug && ($_SESSION['username'] == $album->owner() or $_SESSION['user_type'] == 'admin')) {
-        $album->deletePhoto($image);
+        $album->deleteImage($image);
     } else {
         $auth->redirect();
     }

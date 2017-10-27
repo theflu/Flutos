@@ -63,7 +63,11 @@ class Album {
         foreach ($iterator as $filename) {
             if (substr($filename, -5) != '.json') {
                 $img_name = explode('/', $filename);
-                array_push($images, $img_name[count($img_name) - 1]);
+                $img_name = $img_name[count($img_name) - 1];
+
+                if (substr($img_name, 0, 3) != 'th_') {
+                    array_push($images, $img_name);
+                }
             }
         }
 
@@ -152,11 +156,13 @@ class Album {
 			header('Content-Type: '.$mime_type);
 
 			if ($thumbnail) {
+                if (!file_exists(_ALBUMS_.'/'.$this->album_slug.'/th_'.$image)) {
+                    $imagick = new \Imagick(realpath(_ALBUMS_ . '/' . $this->album_slug . '/' . $image));
+                    $imagick->thumbnailImage(275, 275, true);
+                    $imagick->writeImage(_ALBUMS_.'/'.$this->album_slug.'/th_'.$image);
+                }
 
-			    $imagick = new \Imagick(realpath(_ALBUMS_.'/'.$this->album_slug.'/'.$image));
-				$imagick->thumbnailImage(275, 275, true);
-				echo $imagick->getImageBlob();
-
+                readfile(_ALBUMS_.'/'.$this->album_slug.'/th_'.$image);
 			} else {
 				readfile(_ALBUMS_.'/'.$this->album_slug.'/'.$image);
 			}
@@ -182,6 +188,8 @@ class Album {
 
 		    if (file_exists(_ALBUMS_.'/'.$this->album_slug.'/'.$image)) $new_name = false;
 		}
+
+		$this->rotateImage($image['tmp_name']);
 
 		if (move_uploaded_file($image['tmp_name'], _ALBUMS_.'/'.$this->album_slug.'/'.$new_name)) return true;
 
@@ -329,9 +337,10 @@ class Album {
         }
     }
 
-    public function deletePhoto($image) {
+    public function deleteImage($image) {
         if (preg_match('/^[a-zA-Z0-9-]+$/', $image)) {
             unlink(_ALBUMS_ . '/' . $this->album_slug.'/'.$image);
+            unlink(_ALBUMS_ . '/' . $this->album_slug.'/th_'.$image);
         }
     }
 
@@ -345,5 +354,43 @@ class Album {
                 fclose($fp);
             }
         }
+    }
+
+    private function rotateImage($image_path) {
+        $image = new \Imagick(realpath($image_path));
+
+        switch ($image->getImageOrientation()) {
+            case Imagick::ORIENTATION_TOPLEFT:
+                break;
+            case Imagick::ORIENTATION_TOPRIGHT:
+                $image->flopImage();
+                break;
+            case Imagick::ORIENTATION_BOTTOMRIGHT:
+                $image->rotateImage("#000", 180);
+                break;
+            case Imagick::ORIENTATION_BOTTOMLEFT:
+                $image->flopImage();
+                $image->rotateImage("#000", 180);
+                break;
+            case Imagick::ORIENTATION_LEFTTOP:
+                $image->flopImage();
+                $image->rotateImage("#000", -90);
+                break;
+            case Imagick::ORIENTATION_RIGHTTOP:
+                $image->rotateImage("#000", 90);
+                break;
+            case Imagick::ORIENTATION_RIGHTBOTTOM:
+                $image->flopImage();
+                $image->rotateImage("#000", 90);
+                break;
+            case Imagick::ORIENTATION_LEFTBOTTOM:
+                $image->rotateImage("#000", -90);
+                break;
+            default: // Invalid orientation
+                break;
+        }
+
+        $image->setImageOrientation(Imagick::ORIENTATION_TOPLEFT);
+        $image->writeImage($image_path);
     }
 }
