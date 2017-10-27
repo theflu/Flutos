@@ -25,8 +25,7 @@ class Router
     public function set404 ($callback) {
         if (is_callable($callback)) {
             $this->routes['404'] = array();
-            array_push($this->routes['404'], array('callback' => $callback));
-
+            $this->routes['404']['callback'] = $callback;
         }
     }
 
@@ -118,7 +117,6 @@ class Router
             }
 
             if (!$route_match && isset($this->routes['404'])) {
-                d($this->routes['404']);
                 return call_user_func($this->routes['404']['callback']);
             }
 
