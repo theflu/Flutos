@@ -23,9 +23,10 @@ class Router
     }
 
     public function set404 ($callback) {
-        if (isset($this->routes['404'])) $this->routes['404'] = array();
-
-        array_push($this->routes['404'], $callback);
+        if (is_callable($callback)) {
+            $this->routes['404'] = array();
+            $this->routes['404']['callback'] = $callback;
+        }
     }
 
     public function redirect ($uri, $to, $code = 301) {
@@ -112,9 +113,11 @@ class Router
 
                 if ($route_match) {
                     return call_user_func_array($route['callback'], $params);
-                } elseif (isset($this->routes['404']) && is_callable($this->routes['404'])) {
-                    return call_user_func($route['404']);
                 }
+            }
+
+            if (!$route_match && isset($this->routes['404'])) {
+                return call_user_func($this->routes['404']['callback']);
             }
 
             return false;
