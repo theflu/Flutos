@@ -152,11 +152,13 @@ class Album {
 			header('Content-Type: '.$mime_type);
 
 			if ($thumbnail) {
+                if (!file_exists(_ALBUMS_.'/'.$this->album_slug.'/th_'.$image)) {
+                    $imagick = new \Imagick(realpath(_ALBUMS_ . '/' . $this->album_slug . '/' . $image));
+                    $imagick->thumbnailImage(275, 275, true);
+                    $imagick->writeImage(_ALBUMS_.'/'.$this->album_slug.'/th_'.$image);
+                }
 
-			    $imagick = new \Imagick(realpath(_ALBUMS_.'/'.$this->album_slug.'/'.$image));
-				$imagick->thumbnailImage(275, 275, true);
-				echo $imagick->getImageBlob();
-
+                readfile(_ALBUMS_.'/'.$this->album_slug.'/th_'.$image);
 			} else {
 				readfile(_ALBUMS_.'/'.$this->album_slug.'/'.$image);
 			}
