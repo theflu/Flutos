@@ -185,6 +185,8 @@ class Album {
 		    if (file_exists(_ALBUMS_.'/'.$this->album_slug.'/'.$image)) $new_name = false;
 		}
 
+		$this->rotateImage($image['tmp_name']);
+
 		if (move_uploaded_file($image['tmp_name'], _ALBUMS_.'/'.$this->album_slug.'/'.$new_name)) return true;
 
 		$this->error = 'Failed to save image';
@@ -347,5 +349,43 @@ class Album {
                 fclose($fp);
             }
         }
+    }
+
+    private function rotateImage($image_path) {
+        $image = new \Imagick(realpath($image_path));
+
+        switch ($image->getImageOrientation()) {
+            case Imagick::ORIENTATION_TOPLEFT:
+                break;
+            case Imagick::ORIENTATION_TOPRIGHT:
+                $image->flopImage();
+                break;
+            case Imagick::ORIENTATION_BOTTOMRIGHT:
+                $image->rotateImage("#000", 180);
+                break;
+            case Imagick::ORIENTATION_BOTTOMLEFT:
+                $image->flopImage();
+                $image->rotateImage("#000", 180);
+                break;
+            case Imagick::ORIENTATION_LEFTTOP:
+                $image->flopImage();
+                $image->rotateImage("#000", -90);
+                break;
+            case Imagick::ORIENTATION_RIGHTTOP:
+                $image->rotateImage("#000", 90);
+                break;
+            case Imagick::ORIENTATION_RIGHTBOTTOM:
+                $image->flopImage();
+                $image->rotateImage("#000", 90);
+                break;
+            case Imagick::ORIENTATION_LEFTBOTTOM:
+                $image->rotateImage("#000", -90);
+                break;
+            default: // Invalid orientation
+                break;
+        }
+
+        $image->setImageOrientation(Imagick::ORIENTATION_TOPLEFT);
+        $image->writeImage($image_path);
     }
 }
