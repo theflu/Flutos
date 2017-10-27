@@ -26,10 +26,7 @@ class Router
         if (is_callable($callback)) {
             $this->routes['404'] = array();
             array_push($this->routes['404'], array('callback' => $callback));
-            d($this->routes['404']);
-            call_user_func($this->routes['404']['callback']);
-        } else {
-            die('not callable');
+
         }
     }
 
@@ -119,10 +116,9 @@ class Router
                     return call_user_func_array($route['callback'], $params);
                 }
             }
-d($route_match);
-            if (!$route_match && isset($this->routes['404'])) {
-                d($this->routes['404']);
-                return call_user_func($this->routes['404']);
+
+            if (!$route_match && isset($this->routes['404']['callback'])) {
+                return call_user_func($this->routes['404']['callback']);
             }
 
             return false;
