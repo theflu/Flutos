@@ -17,19 +17,21 @@ $router->get('/', function () use ($twig) {
     $album = new Album;
     $albums = $album->getAll();
 
-    echo $twig->render('albums.twig', array('albums' => $albums));
+    echo $twig->render('albums.twig', array('albums' => $albums, 'page' => 1));
 });
 
+$router->get('/page/1', function () use ($twig) {
+    $album = new Album;
+    $albums = $album->getAll();
 
-//
-// Show albums
-//
+    echo $twig->render('albums.twig', array('albums' => $albums, 'page' => 1));
+});
 
 $router->get('/page/{page}', function ($page) use ($twig) {
     $album = new Album;
     $albums = $album->getAll($page);
 
-    echo $twig->render('albums.twig', array('albums' => $albums));
+    echo $twig->render('albums.twig', array('albums' => $albums, 'page' => $page));
 });
 
 
