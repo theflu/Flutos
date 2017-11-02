@@ -77,6 +77,7 @@ class Album {
 	public function getAll($page = 1, $limit = 9) {
 
 	    $start = ($page - 1) * 9;
+	    if ($start == 0) $limit++;
 	    $i = 1;
 		$albums = array();
 		foreach(glob(_ALBUMS_.'/*') as $album) {
