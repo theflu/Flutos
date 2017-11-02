@@ -17,27 +17,25 @@
 	
 		<div class="album text-muted">
 			<div class="container">
-
-				<div class="row">
 				{% if albums %}
 					<div class="row">
 				{% for album in albums %}
-					<div class="col-md-4">
-						<div class="card">
-							<a href="/album/{{ album.album_slug }}" class="text-center center-block">
-								<h3>{{album.title}}</h3>
-								<span class="badge badge-pill badge-dark">{{album.image_total}}</span>
-								{% if album.default %}<img src="/album/{{album.album_slug}}/th_{{album.default}}">{% endif %}
-							</a>
+						<div class="col-md-4">
+							<div class="card">
+								<a href="/album/{{ album.album_slug }}" class="text-center center-block">
+									<h3>{{album.title}}</h3>
+									<span class="badge badge-pill badge-dark">{{album.image_total}}</span>
+									{% if album.default %}<img src="/album/{{album.album_slug}}/th_{{album.default}}">{% endif %}
+								</a>
+							</div>
 						</div>
-					</div>
 				{% endfor %}
 					</div>
 				{% else %}
 					<div class="row">
-					<div class="col-md-12 text-center">
-						<h2>No albums found</h2>
-					</div>
+						<div class="col-md-12 text-center">
+							<h2>No albums found</h2>
+						</div>
 					</div>
 				{% endif %}
 					<div class="row">
