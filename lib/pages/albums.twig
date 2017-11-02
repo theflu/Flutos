@@ -53,7 +53,7 @@
 				{% endif %}
 				<div class="row">
 					<div class="col-md-12">
-                        {% if count(albums) >= 9 %}<a href="/page/" class="btn btn-md btn-default float-right">Next</a>{% endif %}
+                        {% if albums|length >= 9 %}<a href="/page/" class="btn btn-md btn-default float-right">Next</a>{% endif %}
 					</div>
 				</div>
 			</div>
