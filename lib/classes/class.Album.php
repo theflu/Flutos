@@ -82,7 +82,7 @@ class Album {
 		foreach(glob(_ALBUMS_.'/*') as $album) {
 
 		    if ($i >= $start) {
-                if ($i <= ($start + $limit)) {
+                if ($i < ($start + $limit)) {
                     $album_slug = explode('/', $album);
                     $album_slug = $album_slug[count($album_slug) - 1];
 
