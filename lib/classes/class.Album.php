@@ -90,8 +90,8 @@ class Album {
                 } else {
                     break;
                 }
-                $i++;
             }
+            $i++;
 		}
 		
 		return $albums;
