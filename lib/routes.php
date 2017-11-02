@@ -230,7 +230,7 @@ $router->get('/tag/{tag}', function ($tag) use ($twig) {
     $album = new Album;
     $albums = $album->byTag($tag);
     
-    echo $twig->render('tag.twig', array('albums' => $albums, 'tag' => $tag));
+    echo $twig->render('tag.twig', array('albums' => $albums, 'tag' => $tag, 'page' => 1));
 });
 
 $router->get('/tag/{tag}/page/1', function ($tag) use ($twig) {
