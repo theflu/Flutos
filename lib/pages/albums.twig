@@ -30,8 +30,8 @@
 		<div class="album text-muted">
 			<div class="container">
 				{% if albums %}
-				{% for album in albums %}
 					<div class="row">
+				{% for album in albums %}
 						<div class="col-md-4">
 							<div class="card">
 								<a href="/album/{{album.album_slug}}" class="text-center center-block">
@@ -41,9 +41,9 @@
 								</a>
 							</div>
 						</div>
-					</div>
-				{% endfor %}
 
+				{% endfor %}
+				</div>
 				{% else %}
 					<div class="row">
 						<div class="col-md-12 text-center">
