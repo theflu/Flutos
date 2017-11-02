@@ -29,25 +29,32 @@
 	
 		<div class="album text-muted">
 			<div class="container">
-
-				<div class="row">
 				{% if albums %}
 				{% for album in albums %}
-					<div class="col-md-4">
-						<div class="card">
-							<a href="/album/{{album.album_slug}}" class="text-center center-block">
-								<h3>{{album.title}}</h3>
-								<span class="badge badge-pill badge-dark">{{album.image_total}}</span>
-								{% if album.default %}<img src="/album/{{album.album_slug}}/th_{{album.default}}">{% endif %}
-							</a>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="card">
+								<a href="/album/{{album.album_slug}}" class="text-center center-block">
+									<h3>{{album.title}}</h3>
+									<span class="badge badge-pill badge-dark">{{album.image_total}}</span>
+									{% if album.default %}<img src="/album/{{album.album_slug}}/th_{{album.default}}">{% endif %}
+								</a>
+							</div>
 						</div>
 					</div>
 				{% endfor %}
+
 				{% else %}
-					<div class="col-md-12 text-center">
-						<h2>No albums found</h2>
+					<div class="row">
+						<div class="col-md-12 text-center">
+							<h2>No albums found</h2>
+						</div>
 					</div>
 				{% endif %}
+				<div class="row">
+					<div class="col-md-12">
+                        {% if count(albums) >= 9 %}<a href="/page/" class="btn btn-md btn-default float-right">Next</a>{% endif %}
+					</div>
 				</div>
 			</div>
 		</div>
