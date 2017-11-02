@@ -237,14 +237,14 @@ $router->get('/tag/{tag}/page/1', function ($tag) use ($twig) {
     $album = new Album;
     $albums = $album->byTag($tag);
 
-    echo $twig->render('albums.twig', array('albums' => $albums, 'page' => 1));
+    echo $twig->render('tag.twig', array('albums' => $albums, 'page' => 1));
 });
 
 $router->get('/tag/{tag}/page/{page}', function ($tag, $page) use ($twig) {
     $album = new Album;
     $albums = $album->byTag($tag, $page);
 
-    echo $twig->render('albums.twig', array('albums' => $albums, 'page' => $page));
+    echo $twig->render('tag.twig', array('albums' => $albums, 'page' => $page));
 });
 
 
