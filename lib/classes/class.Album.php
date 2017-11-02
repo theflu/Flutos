@@ -74,14 +74,16 @@ class Album {
         return $images;
     }
 
-	public function getAll($start = 0, $limit = 9) {
+	public function getAll($page = 1, $limit = 9) {
 
+	    $start = ($page - 1) * 9;
+	    if ($start == 0) $limit++;
 	    $i = 1;
 		$albums = array();
 		foreach(glob(_ALBUMS_.'/*') as $album) {
 
-		    if ($i > $start) {
-                if ($i <= ($start + $limit)) {
+		    if ($i >= $start) {
+                if ($i < ($start + $limit)) {
                     $album_slug = explode('/', $album);
                     $album_slug = $album_slug[count($album_slug) - 1];
 
@@ -89,15 +91,17 @@ class Album {
                 } else {
                     break;
                 }
-                $i++;
             }
+            $i++;
 		}
 		
 		return $albums;
 	}
 	
-	public function byTag($tag, $start = 0, $limit = 9) {
+	public function byTag($tag, $page = 1, $limit = 9) {
 
+        $start = ($page - 1) * 9;
+        if ($start == 0) $limit++;
         $i = 1;
         $albums = array();
         foreach(glob(_ALBUMS_.'/*') as $album) {
@@ -107,7 +111,7 @@ class Album {
             if (($album_config = $this->config($album_slug))) {
                 if(isset($album_config['tags']) && is_array($album_config['tags']) && in_array($tag, $album_config['tags'])) {
                     if ($i > $start) {
-                        if ($i <= ($start + $limit)) {
+                        if ($i < ($start + $limit)) {
                             array_push($albums, $album_config);
                         } else {
                             break;

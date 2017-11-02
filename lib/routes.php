@@ -17,19 +17,21 @@ $router->get('/', function () use ($twig) {
     $album = new Album;
     $albums = $album->getAll();
 
-    echo $twig->render('albums.twig', array('albums' => $albums));
+    echo $twig->render('albums.twig', array('albums' => $albums, 'page' => 1));
 });
 
+$router->get('/page/1', function () use ($twig) {
+    $album = new Album;
+    $albums = $album->getAll();
 
-//
-// Show albums
-//
+    echo $twig->render('albums.twig', array('albums' => $albums, 'page' => 1));
+});
 
 $router->get('/page/{page}', function ($page) use ($twig) {
     $album = new Album;
     $albums = $album->getAll($page);
 
-    echo $twig->render('albums.twig', array('albums' => $albums));
+    echo $twig->render('albums.twig', array('albums' => $albums, 'page' => $page));
 });
 
 
@@ -228,7 +230,21 @@ $router->get('/tag/{tag}', function ($tag) use ($twig) {
     $album = new Album;
     $albums = $album->byTag($tag);
     
-    echo $twig->render('tag.twig', array('albums' => $albums, 'tag' => $tag));
+    echo $twig->render('tag.twig', array('albums' => $albums, 'tag' => $tag, 'page' => 1));
+});
+
+$router->get('/tag/{tag}/page/1', function ($tag) use ($twig) {
+    $album = new Album;
+    $albums = $album->byTag($tag);
+
+    echo $twig->render('tag.twig', array('albums' => $albums, 'tag' => $tag, 'page' => 1));
+});
+
+$router->get('/tag/{tag}/page/{page}', function ($tag, $page) use ($twig) {
+    $album = new Album;
+    $albums = $album->byTag($tag, $page);
+
+    echo $twig->render('tag.twig', array('albums' => $albums, 'tag' => $tag, 'page' => $page));
 });
 
 
@@ -467,7 +483,24 @@ $router->get('/logout', function () {
 //
 
 $router->get('/setup', function () use ($twig) {
-    echo $twig->render('setup.twig');
+
+    if (!is_writable(_ALBUMS_)) {
+        $vars['msg'] = array(
+            'msg' => _ALBUMS_.' Is not writable',
+            'type' => 'danger'
+        );
+
+        echo $twig->render('unwritable.twig', $vars);
+    } elseif (!is_writable(_ALBUMS_.'/../config')) {
+        $vars['msg'] = array(
+            'msg' => _ALBUMS_.'/../config Is not writable',
+            'type' => 'danger'
+        );
+
+        echo $twig->render('unwritable.twig', $vars);
+    } else {
+        echo $twig->render('setup.twig');
+    }
 });
 
 $router->post('/setup', function () use ($twig) {
