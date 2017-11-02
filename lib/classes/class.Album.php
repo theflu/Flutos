@@ -98,8 +98,10 @@ class Album {
 		return $albums;
 	}
 	
-	public function byTag($tag, $start = 0, $limit = 9) {
+	public function byTag($tag, $page = 1, $limit = 9) {
 
+        $start = ($page - 1) * 9;
+        if ($start == 0) $limit++;
         $i = 1;
         $albums = array();
         foreach(glob(_ALBUMS_.'/*') as $album) {
