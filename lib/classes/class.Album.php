@@ -74,13 +74,14 @@ class Album {
         return $images;
     }
 
-	public function getAll($start = 0, $limit = 9) {
+	public function getAll($page = 1, $limit = 9) {
 
+	    $start = ($page - 1) * 9;
 	    $i = 1;
 		$albums = array();
 		foreach(glob(_ALBUMS_.'/*') as $album) {
 
-		    if ($i > $start) {
+		    if ($i >= $start) {
                 if ($i <= ($start + $limit)) {
                     $album_slug = explode('/', $album);
                     $album_slug = $album_slug[count($album_slug) - 1];
