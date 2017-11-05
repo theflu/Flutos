@@ -46,6 +46,7 @@ unset($site_config);
 $loader = new Twig_Loader_Filesystem(_LIB_.'/pages');
 $twig = new Twig_Environment($loader);
 $twig->addGlobal('_SESSION_', $_SESSION);
+$twig->addGlobal('_URL_', $_SERVER['REQUEST_URI']);
 
 // Add Config to twig
 if($_SESSION['config']) {
