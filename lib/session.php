@@ -46,7 +46,8 @@ unset($site_config);
 $loader = new Twig_Loader_Filesystem(_LIB_.'/pages');
 $twig = new Twig_Environment($loader);
 $twig->addGlobal('_SESSION_', $_SESSION);
-$twig->addGlobal('_URL_', (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+$twig->addGlobal('_DOMAIN_', (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]");
+$twig->addGlobal('_URL_', _DOMAIN_.$_SERVER[REQUEST_URI]);
 
 // Add Config to twig
 if($_SESSION['config']) {
