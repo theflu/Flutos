@@ -23,19 +23,22 @@ class Album {
         $config = json_decode($config_json, true);
 
         $config['album_slug'] = $album_slug;
-        $config['image_total'] = $iterator->count() - 1;
+        $img_count = 0;
 
-        if (!isset($config['default']) || !file_exists(_ALBUMS_.'/'.$album_slug.'/'.$config['default'])) {
             foreach($iterator as $filename){
-                if (substr($filename, -5) != '.json') {
-                    $img_name = explode('/', $filename);
+$img_name = explode('/', $filename);
+                $img_name = $img_name[count($img_name) - 1];
+                if (substr($filename, -5) != '.json' && !in_array(substr($img_name, 0, 3), ['th_', 'sm_', 'md_', 'lg_'])) {
+                    if (!isset($config['default']) || !file_exists(_ALBUMS_.'/'.$album_slug.'/'.$config['default'])) {
+                        $img_name = explode('/', $filename);
 
-                    $config['default'] = $img_name[count($img_name)-1];
-                    break;
+                        $config['default'] = $img_name[count($img_name)-1];
+                    }
+                    $img_count++;
                 }
             }
-        }
 
+        $config['image_total'] = $img_count;
         $this->album_config = $config;
 
         return $config;
@@ -52,8 +55,8 @@ class Album {
 
         return $this->album_config['users'];
     }
-	
-	public function images($album_slug = null) {
+
+    public function images($album_slug = null) {
 
 	    if (is_null($album_slug)) $album_slug = $this->album_slug;
         $iterator = new GlobIterator(_ALBUMS_ . '/' . $album_slug . '/*');
@@ -62,10 +65,10 @@ class Album {
 
         foreach ($iterator as $filename) {
             if (substr($filename, -5) != '.json') {
-                $img_name = explode('/', $filename);
+               $img_name = explode('/', $filename);
                 $img_name = $img_name[count($img_name) - 1];
 
-                if (substr($img_name, 0, 3) != 'th_') {
+                if (!in_array(substr($img_name, 0, 3), ['th_', 'sm_', 'md_', 'lg_'])) {
                     array_push($images, $img_name);
                 }
             }
@@ -147,11 +150,19 @@ class Album {
 	}
 	
 	public function showImage($image) {
-		$thumbnail = false;
-
-		if (substr($image, 0, 3) == 'th_') {
+		
+		$compressions = array(
+			'th_' => 500,
+			'sm_' => 100,
+			'md_' => 75,
+			'lg_' => 50
+		);
+		
+		$compress = false;
+		$prefix = substr($image, 0, 3);
+		if (array_key_exists ($prefix, $compressions)) {
 		    $image = substr($image, 3);
-		    $thumbnail = true;
+			$compress = true;
         }
 
         if (file_exists(_ALBUMS_.'/'.$this->album_slug.'/'.$image)) {
@@ -159,19 +170,23 @@ class Album {
 		    $mime_type = mime_content_type(_ALBUMS_.'/'.$this->album_slug.'/'.$image);
 			header('Content-Type: '.$mime_type);
 
-			if ($thumbnail) {
-                if (!file_exists(_ALBUMS_.'/'.$this->album_slug.'/th_'.$image)) {
-                    $imagick = new \Imagick(realpath(_ALBUMS_ . '/' . $this->album_slug . '/' . $image));
-                    $imagick->thumbnailImage(275, 275, true);
-                    $imagick->writeImage(_ALBUMS_.'/'.$this->album_slug.'/th_'.$image);
-                }
-
-                readfile(_ALBUMS_.'/'.$this->album_slug.'/th_'.$image);
-			} else {
-				readfile(_ALBUMS_.'/'.$this->album_slug.'/'.$image);
+			if ($compress) {
+					if (!file_exists(_ALBUMS_.'/'.$this->album_slug.'/'.$prefix.$image)) {
+						$imagick = new \Imagick(realpath(_ALBUMS_ . '/' . $this->album_slug . '/' . $image));
+						
+						if ($prefix == 'th_') {
+							$imagick->thumbnailImage(275, 275, true);
+						} else {
+							$imagick->setImageCompressionQuality($compressions[$prefix]);
+						}
+						
+						$imagick->writeImage(_ALBUMS_.'/'.$this->album_slug.'/'.$prefix.$image);
+					}		
+				$image = $prefix . $image;
 			}
-
-			 return true;
+			
+			readfile(_ALBUMS_.'/'.$this->album_slug.'/'.$image);
+			return true;
 		}
 
 		$this->error = 'Image does not exist';
